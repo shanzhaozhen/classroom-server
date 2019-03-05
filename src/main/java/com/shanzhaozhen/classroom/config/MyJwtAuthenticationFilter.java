@@ -70,7 +70,6 @@ public class MyJwtAuthenticationFilter extends OncePerRequestFilter{
         String jwtToken = httpServletRequest.getHeader(header);
         if (StringUtils.hasText(jwtToken) && jwtToken.startsWith(tokenHead + " ")) {
             return jwtToken.substring((tokenHead + " ").length());
-//            return jwtToken.substring((tokenHead + " ").length());
         }
         return null;
     }
