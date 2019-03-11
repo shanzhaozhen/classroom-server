@@ -13,15 +13,16 @@ public class SysUserInfo extends BaseBean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String nickname;
+    private String nickname = "";
 
-    private String fullName;
+    private String fullName = "";
 
     private Integer sex;
 
     private Date birthday;
 
-    private String headImg;
+    //头像
+    private String avatar;
 
     private String email;
 
@@ -74,12 +75,12 @@ public class SysUserInfo extends BaseBean {
         this.birthday = birthday;
     }
 
-    public String getHeadImg() {
-        return headImg;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getEmail() {

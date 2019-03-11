@@ -8,19 +8,22 @@ public class ResultParam {
 
     private int status;
 
+    private int code;
+
     private String error;
 
     private String message;
 
-    public ResultParam(Date timestamp, int status, String error, String message) {
-        this.timestamp = timestamp;
-        this.status = status;
-        this.error = error;
-        this.message = message;
-    }
-
     public Date getTimestamp() {
         return timestamp;
+    }
+
+    public ResultParam(Date timestamp, int status, int code, String error, String message) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.code = code;
+        this.error = error;
+        this.message = message;
     }
 
     public void setTimestamp(Date timestamp) {
@@ -33,6 +36,14 @@ public class ResultParam {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getError() {
@@ -50,4 +61,5 @@ public class ResultParam {
     public void setMessage(String message) {
         this.message = message;
     }
+
 }

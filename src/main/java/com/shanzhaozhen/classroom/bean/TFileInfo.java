@@ -3,8 +3,8 @@ package com.shanzhaozhen.classroom.bean;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "t_rec_file_info")
-public class TRecFileInfo extends BaseBean {
+@Table(name = "t_file_info")
+public class TFileInfo extends BaseBean {
 
     private static final long serialVersionUID = -7847566141393570588L;
 
