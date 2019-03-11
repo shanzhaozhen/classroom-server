@@ -11,7 +11,7 @@
     <groupId>com.shanzhaozhen</groupId>
     <artifactId>classroom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>classroom</name>
+    <name>classroom-server</name>
     <description>Classroom Management Server</description>
 
     <properties>

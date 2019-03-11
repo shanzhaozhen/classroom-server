@@ -34,7 +34,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUser sysUser = sysUserRepository.findByUsername(username);
+        SysUser sysUser = sysUserRepository.findSysUserByUsername(username);
 
         if (sysUser == null) {
             /**

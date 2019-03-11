@@ -6,10 +6,8 @@ import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.SysUserInfo;
 import com.shanzhaozhen.classroom.service.RegisterService;
 import com.shanzhaozhen.classroom.utils.MessageUtils;
-import com.shanzhaozhen.classroom.utils.NullUtils;
 import com.shanzhaozhen.classroom.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -23,11 +21,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private SysUserRepository sysUserRepository;
 
-    @Autowired
-    private SysUserInfoRepository sysUserInfoRepository;
-
     @Override
-    @Modifying
     @Transactional
     public Map<String, Object> RegisterNewUser(SysUser sysUser) {
         if (StringUtils.isEmpty(sysUser.getUsername())) {
@@ -43,7 +37,7 @@ public class RegisterServiceImpl implements RegisterService {
         SysUser newUser = new SysUser();
         newUser.setUsername(sysUser.getUsername());
         newUser.setPassword(PasswordUtils.encryption(sysUser.getPassword()));
-        newUser.setAccountNonExpired(false);
+        newUser.setAccountNonExpired(true);
         newUser.setAccountNonLocked(true);
         newUser.setCredentialsNonExpired(true);
         newUser.setEnabled(true);
@@ -55,8 +49,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Override
     public Map<String, Boolean> checkUsername(String username) {
         int count = sysUserRepository.countByUsername(username);
-        boolean valid = false;
-        Map<String, Boolean> map = new HashMap<String, Boolean>();
+        Map<String, Boolean> map = new HashMap<>();
         if (count > 0) {
             map.put("valid", false);
         } else {

@@ -52,7 +52,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     protected CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","HEAD", "OPTION"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT","DELETE","HEAD", "OPTION"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.addExposedHeader("Authorization");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -62,11 +62,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 定义认证规则
-     * antMatchers: 允许所有用户访问"/"和"/index.html"
      * anyRequest().authenticated(): 其他地址的访问均需验证权限
-     * formLogin: 表单登陆
-     * loginPage: 登陆页设置
-     *
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {

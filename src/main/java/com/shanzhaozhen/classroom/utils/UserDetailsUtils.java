@@ -1,5 +1,6 @@
 package com.shanzhaozhen.classroom.utils;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,10 +18,18 @@ public class UserDetailsUtils {
     /**
      * 获取当前登录用户.
      */
+    public static Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    /**
+     * 获取当前登录用户.
+     */
     public static String getUsername() {
-        if ("anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) return "";
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userDetails.getUsername();
+        if ("anonymousUser".equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
+            return "";
+        }
+        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     /**

@@ -17,7 +17,7 @@ public class RegisterController {
 
     @PostMapping
     @ResponseBody
-    public Map<String, Object> register(SysUser sysUser) {
+    public Map<String, Object> register(@RequestBody SysUser sysUser) {
         return registerService.RegisterNewUser(sysUser);
     }
 
