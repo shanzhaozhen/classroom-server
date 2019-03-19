@@ -75,8 +75,20 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.56</version>
         </dependency>
-    </dependencies>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <!-- zxing 二维码生成工具 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.3</version>
+        </dependency>
+
+    </dependencies>
     <build>
         <plugins>
             <plugin>

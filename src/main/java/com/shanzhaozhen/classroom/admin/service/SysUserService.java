@@ -10,4 +10,6 @@ public interface SysUserService {
     Map<String, Object> getUserInfo(HttpServletRequest httpServletRequest);
 
     SysUser getSysUserByUsername(String username);
+
+    SysUser getSysUserByOpenId(String openId);
 }
