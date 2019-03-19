@@ -22,6 +22,8 @@ public class SysUser extends BaseBean implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    private String openId;
+
     @Transient
     private Set<GrantedAuthority> authorities;
 
@@ -72,6 +74,14 @@ public class SysUser extends BaseBean implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     @Override

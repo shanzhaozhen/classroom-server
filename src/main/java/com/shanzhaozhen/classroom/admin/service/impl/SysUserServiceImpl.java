@@ -54,6 +54,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
 
         map.put("success", true);
+        map.put("fullName", sysUserInfo.getFullName());
         map.put("nickname", sysUserInfo.getNickname());
         map.put("avatar", sysUserInfo.getAvatar());
         map.put("roles", roles);
@@ -64,6 +65,11 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser getSysUserByUsername(String username) {
         return sysUserRepository.findSysUserByUsername(username);
+    }
+
+    @Override
+    public SysUser getSysUserByOpenId(String openId) {
+        return sysUserRepository.findSysUserByOpenId(openId);
     }
 
 }
