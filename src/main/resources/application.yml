@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8090
   servlet:
     context-path: /classroom
 
@@ -68,5 +68,15 @@ jwt:
   expiration: 3600
   remember_expiration: 604800
 
-
-
+wechat:
+  auth: https://open.weixin.qq.com/connect/oauth2/authorize
+  codeUrl: https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=STATE#wechat_redirect
+  accessTokenUrl: https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code
+  refreshTokenUrl: https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s
+  userInfoUrl: https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN
+  code2SessionUrl: https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code
+  baseScope: snsapi_base
+  userinfoScope: snsapi_userinfo
+  appId: wx9fb2dacbf0e32a67
+  appSecret: 929fe77d770b9b51cd2f743f3c50836d
+  projectUrl: http://elora.fnl56.com/recruitment/
