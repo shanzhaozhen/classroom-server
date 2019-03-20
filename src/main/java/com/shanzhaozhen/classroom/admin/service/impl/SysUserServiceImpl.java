@@ -55,8 +55,8 @@ public class SysUserServiceImpl implements SysUserService {
 
         map.put("success", true);
         map.put("fullName", sysUserInfo.getFullName());
-        map.put("nickname", sysUserInfo.getNickname());
-        map.put("avatar", sysUserInfo.getAvatar());
+        map.put("nickName", sysUserInfo.getNickName());
+        map.put("avatarUrl", sysUserInfo.getAvatarUrl());
         map.put("roles", roles);
 
         return map;

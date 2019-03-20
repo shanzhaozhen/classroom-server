@@ -13,16 +13,9 @@ public class SysUserInfo extends BaseBean {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String nickname = "";
-
     private String fullName = "";
 
-    private Integer sex;
-
     private Date birthday;
-
-    //头像
-    private String avatar;
 
     private String email;
 
@@ -32,8 +25,33 @@ public class SysUserInfo extends BaseBean {
 
     private String introduction;
 
+    /**
+     * 微信资料
+     */
+    //头像链接
+    private String avatarUrl;
+
+    //所在城市
+    private String city;
+
+    //所在国家
+    private String country;
+
+    //性别
+    private Integer gender;
+
+    //语言
+    private String language;
+
+    //昵称
+    private String nickName;
+
+    //省份
+    private String province;
+
 //    @OneToOne(mappedBy = "sysUserInfo")
 //    private SysUser sysUser;
+
 
     public Integer getId() {
         return id;
@@ -41,14 +59,6 @@ public class SysUserInfo extends BaseBean {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getFullName() {
@@ -59,28 +69,12 @@ public class SysUserInfo extends BaseBean {
         this.fullName = fullName;
     }
 
-    public Integer getSex() {
-        return sex;
-    }
-
-    public void setSex(Integer sex) {
-        this.sex = sex;
-    }
-
     public Date getBirthday() {
         return birthday;
     }
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String getEmail() {
@@ -113,5 +107,61 @@ public class SysUserInfo extends BaseBean {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
     }
 }
