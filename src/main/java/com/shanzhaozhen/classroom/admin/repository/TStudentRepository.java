@@ -12,10 +12,10 @@ public interface TStudentRepository extends JpaRepository<TStudent, Integer> {
 
     TStudent findTStudentByClassIdAndStudentId(Integer classId, Integer studentId);
 
-    @Query("select new TStudent(s, u.sysUserInfo.fullName as fullName, u.sysUserInfo.nickname as nickname) " +
+    @Query("select new TStudent(s, u.sysUserInfo.fullName as fullName, u.sysUserInfo.nickName as nickName) " +
             "from TStudent s " +
             "left join SysUser u on s.studentId = u.id " +
-            "where s.classId = ?1 and (u.sysUserInfo.fullName like ?2 or u.sysUserInfo.nickname like ?3)")
+            "where s.classId = ?1 and (u.sysUserInfo.fullName like ?2 or u.sysUserInfo.nickName like ?3)")
     Page<TStudent> findPageTStudentsByClassIdAndKeyword(Integer classId, String keyword1, String keyword2, Pageable pageable);
 
     int deleteByClassId(Integer classId);

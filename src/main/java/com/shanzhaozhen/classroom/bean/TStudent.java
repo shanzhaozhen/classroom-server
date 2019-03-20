@@ -22,26 +22,26 @@ public class TStudent extends BaseBean {
     private String fullName;
 
     @Transient
-    private String nickname;
+    private String nickName;
 
     public TStudent() {
     }
 
-    public TStudent(Integer studentId, Integer classId, String fullName, String nickname) {
+    public TStudent(Integer studentId, Integer classId, String fullName, String nickName) {
         this.studentId = studentId;
         this.classId = classId;
         this.fullName = fullName;
-        this.nickname = nickname;
+        this.nickName = nickName;
     }
 
-    public TStudent(TStudent tStudent, String fullName, String nickname) {
+    public TStudent(TStudent tStudent, String fullName, String nickName) {
         this.id = tStudent.getId();
         this.studentId = tStudent.getStudentId();
         this.classId = tStudent.getClassId();
         super.setCreatedDate(tStudent.getCreatedDate());
         super.setLastModifiedDate(tStudent.getLastModifiedDate());
         this.fullName = fullName;
-        this.nickname = nickname;
+        this.nickName = nickName;
     }
 
     public Integer getId() {
@@ -76,11 +76,11 @@ public class TStudent extends BaseBean {
         this.fullName = fullName;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }

@@ -2,14 +2,13 @@ package com.shanzhaozhen.classroom.wechat;
 
 import com.shanzhaozhen.classroom.admin.service.SysUserService;
 import com.shanzhaozhen.classroom.bean.SysUser;
+import com.shanzhaozhen.classroom.bean.SysUserInfo;
 import com.shanzhaozhen.classroom.config.MyJwtTokenProvider;
 import com.shanzhaozhen.classroom.config.WechatServiceProvider;
+import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +53,7 @@ public class WechatController {
         return map;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public Map<String, Object> wechatLogin(String code) {
         Map<String, Object> map;
 
@@ -83,7 +82,21 @@ public class WechatController {
         } else {
             return map;
         }
+    }
 
+    @PutMapping("/updateuser")
+    public Map<String, Object> updateUser(SysUserInfo sysUserInfo) {
+        Map<String, Object> map = new HashMap<>();
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            map.put("success", false);
+            map.put("msg", "用户不存在");
+            return map;
+        }
+
+
+        return map;
     }
 
 }
