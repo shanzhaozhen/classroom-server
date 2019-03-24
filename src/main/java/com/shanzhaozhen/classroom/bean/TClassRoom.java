@@ -34,17 +34,49 @@ public class TClassRoom extends BaseBean {
     @Transient
     private Long studentNumber;
 
+    //创建人信息
+    @Transient
+    private SysUserInfo headmasterInfo;
+
     public TClassRoom() {
     }
 
-    public TClassRoom(String name, String outline, Integer classType, Integer headmasterId, Integer monitorId, boolean announce, Long studentNumber) {
+    public TClassRoom(String name, String outline, Integer classType, Integer headmasterId, Integer monitorId, boolean announce, SysUserInfo headmasterInfo, Long studentNumber) {
         this.name = name;
         this.outline = outline;
         this.classType = classType;
         this.headmasterId = headmasterId;
         this.monitorId = monitorId;
         this.announce = announce;
+        this.headmasterInfo = headmasterInfo;
         this.studentNumber = studentNumber;
+    }
+
+//    public TClassRoom(TClassRoom tClassRoom, String headmasterName, Long studentNumber) {
+//        this.id = tClassRoom.getId();
+//        this.name = tClassRoom.getName();
+//        this.outline = tClassRoom.getOutline();
+//        this.classType = tClassRoom.getClassType();
+//        this.headmasterId = tClassRoom.getHeadmasterId();
+//        this.monitorId = tClassRoom.getMonitorId();
+//        this.announce = tClassRoom.isAnnounce();
+//        super.setCreatedDate(tClassRoom.getCreatedDate());
+//        super.setLastModifiedDate(tClassRoom.getLastModifiedDate());
+//        this.studentNumber = studentNumber;
+//        this.headmasterName = headmasterName;
+//    }
+
+    public TClassRoom(TClassRoom tClassRoom, SysUserInfo headmasterInfo) {
+        this.id = tClassRoom.getId();
+        this.name = tClassRoom.getName();
+        this.outline = tClassRoom.getOutline();
+        this.classType = tClassRoom.getClassType();
+        this.headmasterId = tClassRoom.getHeadmasterId();
+        this.monitorId = tClassRoom.getMonitorId();
+        this.announce = tClassRoom.isAnnounce();
+        super.setCreatedDate(tClassRoom.getCreatedDate());
+        super.setLastModifiedDate(tClassRoom.getLastModifiedDate());
+        this.headmasterInfo = headmasterInfo;
     }
 
     public TClassRoom(TClassRoom tClassRoom, Long studentNumber) {
@@ -122,5 +154,13 @@ public class TClassRoom extends BaseBean {
 
     public void setStudentNumber(Long studentNumber) {
         this.studentNumber = studentNumber;
+    }
+
+    public SysUserInfo getHeadmasterInfo() {
+        return headmasterInfo;
+    }
+
+    public void setHeadmasterInfo(SysUserInfo headmasterInfo) {
+        this.headmasterInfo = headmasterInfo;
     }
 }

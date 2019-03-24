@@ -5,6 +5,7 @@ import com.shanzhaozhen.classroom.bean.SysPermission;
 import com.shanzhaozhen.classroom.bean.SysRole;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.TClassRoom;
+import com.shanzhaozhen.classroom.utils.LocationUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,8 @@ public class ClassroomApplicationTests {
     @Test
     public void testJpa() {
 
-        System.out.println();
+        double m = LocationUtils.distanceByLongNLat(113.26436, 23.12908, 113.26436, 23.14908);
+
+        System.out.println(m);
     }
 }

@@ -19,4 +19,11 @@ public interface TClassRoomService {
     Map<String, Object> deleteTClassRoom(Integer id);
 
     List<KeyValueParam> getTClassRoomSimpleList();
+
+    List<TClassRoom> searchClassRoom(String keyword);
+
+    List<TClassRoom> getMyClassRoom();
+
+    TClassRoom getClassRoomById(Integer id);
+
 }

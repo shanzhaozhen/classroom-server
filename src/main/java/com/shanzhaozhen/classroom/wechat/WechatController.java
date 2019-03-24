@@ -6,6 +6,7 @@ import com.shanzhaozhen.classroom.bean.SysUserInfo;
 import com.shanzhaozhen.classroom.config.MyJwtTokenProvider;
 import com.shanzhaozhen.classroom.config.WechatServiceProvider;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +55,7 @@ public class WechatController {
     }
 
     @PostMapping("/login")
-    public Map<String, Object> wechatLogin(String code) {
+    public Map<String, Object> wechatLogin(@RequestBody String code) {
         Map<String, Object> map;
 
         map = this.getMpOpenId(code);
@@ -75,7 +76,7 @@ public class WechatController {
                 // 登陆成功返回
                 map = new HashMap<>();
                 map.put("success", true);
-                map.put("token", token);
+                map.put("access-token", token);
                 return map;
             }
 
@@ -84,8 +85,8 @@ public class WechatController {
         }
     }
 
-    @PutMapping("/updateuser")
-    public Map<String, Object> updateUser(SysUserInfo sysUserInfo) {
+    @PutMapping("/update/userinfo")
+    public Map<String, Object> updateUser(@RequestBody SysUserInfo sysUserInfo) {
         Map<String, Object> map = new HashMap<>();
         String username = UserDetailsUtils.getUsername();
         SysUser sysUser = sysUserService.getSysUserByUsername(username);
@@ -95,7 +96,20 @@ public class WechatController {
             return map;
         }
 
+        SysUserInfo tempUserInfo = sysUser.getSysUserInfo();
 
+        if (tempUserInfo == null) {
+            sysUser.setSysUserInfo(sysUserInfo);
+            sysUserService.saveSysUser(sysUser);
+        } else {
+            BeanUtils.copyProperties(sysUserInfo, tempUserInfo, "id", "fullName", "birthday", "email",
+                    "phoneNumber", "address", "introduction", "createdDate", "lastModifiedDate");
+            sysUser.setSysUserInfo(tempUserInfo);
+            sysUserService.saveSysUser(sysUser);
+        }
+
+        map.put("success", true);
+        map.put("msg", "信息更新成功");
         return map;
     }
 

@@ -4,6 +4,7 @@ import com.shanzhaozhen.classroom.bean.TSignInTask;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Map;
 
 public interface TSignInTaskService {
@@ -15,4 +16,8 @@ public interface TSignInTaskService {
     Map<String, Object> updateTSignInTask(TSignInTask tSignInTask);
 
     Map<String, Object> deleteTSignInTask(Integer id);
+
+    List<TSignInTask> getSignInTaskListByClassId(Integer classId);
+
+    TSignInTask getTSignInTaskById(Integer id);
 }

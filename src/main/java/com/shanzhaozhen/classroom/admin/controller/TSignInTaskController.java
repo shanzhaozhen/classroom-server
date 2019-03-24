@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,6 +36,16 @@ public class TSignInTaskController {
     @DeleteMapping("/signintask/{id}")
     public Map<String, Object> deleteTSignInTask(@PathVariable("id") Integer id) {
         return tSignInTaskService.deleteTSignInTask(id);
+    }
+
+    @GetMapping("/signintask/{id}")
+    public TSignInTask getTSignInTask(@PathVariable("id") Integer id) {
+        return tSignInTaskService.getTSignInTaskById(id);
+    }
+
+    @GetMapping("/signintask/classroom/{id}")
+    public List<TSignInTask> getSignInTaskListByClassId(@PathVariable("id") Integer classId) {
+        return tSignInTaskService.getSignInTaskListByClassId(classId);
     }
 
 }

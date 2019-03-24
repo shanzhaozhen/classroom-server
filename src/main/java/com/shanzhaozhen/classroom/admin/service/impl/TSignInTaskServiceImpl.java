@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -91,5 +92,16 @@ public class TSignInTaskServiceImpl implements TSignInTaskService {
         map.put("success", true);
         map.put("msg", "删除成功");
         return map;
+    }
+
+    @Override
+    public List<TSignInTask> getSignInTaskListByClassId(Integer classId) {
+        return tSignInTaskRepository.findTSignInTasksByClassIdAndAnnounceIsTrue(classId);
+
+    }
+
+    @Override
+    public TSignInTask getTSignInTaskById(Integer id) {
+        return tSignInTaskRepository.findTSignInTaskById(id);
     }
 }

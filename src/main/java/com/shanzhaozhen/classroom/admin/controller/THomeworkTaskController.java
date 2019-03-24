@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,7 +20,7 @@ public class THomeworkTaskController {
     private THomeworkTaskService tHomeworkTaskService;
 
     @GetMapping("/homeworktask")
-    public Page<THomeworkTask> getTClassRoomPage(Integer classId, String keyword, Pageable pageable) {
+    public Page<THomeworkTask> getTHomeworkTaskPage(Integer classId, String keyword, Pageable pageable) {
         Page<THomeworkTask> page = tHomeworkTaskService.getTHomeworkTaskPage(classId, keyword, pageable);
         return page;
     }
@@ -37,6 +38,16 @@ public class THomeworkTaskController {
     @DeleteMapping("/homeworktask/{id}")
     public Map<String, Object> deleteTHomeworkTask(@PathVariable("id") Integer id) {
         return tHomeworkTaskService.deleteTHomeworkTask(id);
+    }
+
+    @GetMapping("/homeworktask/{id}")
+    public THomeworkTask getTHomeworkTask(@PathVariable("id") Integer id) {
+        return tHomeworkTaskService.getTHomeworkTaskById(id);
+    }
+
+    @GetMapping("/homeworktask/classroom/{id}")
+    public List<THomeworkTask> getHomeworkTaskListByClassId(@PathVariable("id") Integer classId) {
+        return tHomeworkTaskService.getHomeworkTaskListByClassId(classId);
     }
 
 }

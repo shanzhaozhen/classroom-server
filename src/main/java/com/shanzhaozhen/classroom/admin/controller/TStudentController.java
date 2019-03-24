@@ -22,9 +22,9 @@ public class TStudentController {
         return page;
     }
 
-    @PostMapping("/student")
-    public Map<String, Object> joinClass(@RequestBody TStudent tStudent) {
-        return tStudentService.joinClass(tStudent);
+    @PostMapping("/student/join/{id}")
+    public Map<String, Object> joinClass(@PathVariable("id") Integer classId) {
+        return tStudentService.joinClass(classId);
     }
 
     @DeleteMapping("/student/{id}")

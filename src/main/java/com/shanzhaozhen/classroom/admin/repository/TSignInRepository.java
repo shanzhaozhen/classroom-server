@@ -16,4 +16,6 @@ public interface TSignInRepository extends JpaRepository<TSignIn, Integer> {
             "where sit.id = ?1 and (u.sysUserInfo.fullName like ?2 or u.sysUserInfo.nickName like ?3)")
     Page<TSignIn> findTSignInsBySignInTaskIdAndKeyword(Integer signInTaskId, String keyword1, String keyword2, Pageable pageable);
 
+    TSignIn findTSignInByCreaterIdAndSignInTaskId(Integer createrId, Integer signInTaskId);
+
 }

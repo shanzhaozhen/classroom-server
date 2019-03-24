@@ -26,4 +26,21 @@ public interface TClassRoomRepository extends JpaRepository<TClassRoom, Integer>
     List<KeyValueParam> findSimpleTClassRoomsByHeadmasterId(Integer headmasterId);
 
 
+    @Query("select new TClassRoom(c, s.sysUserInfo) " +
+            "from TClassRoom c " +
+            "left join SysUser s on c.headmasterId = s.id " +
+            "where c.announce = 1 and (c.name like ?1 or c.outline like ?2)")
+    List<TClassRoom> findTClassRoomsByKeyword(String keyword1, String keyword2);
+
+    @Query("select c " +
+            "from TClassRoom c " +
+            "left join TStudent s on c.id = s.classId " +
+            "where c.headmasterId = ?1 or s.studentId = ?2 group by c.id")
+    List<TClassRoom> findTClassRoomsByHeadmasterIdAndStudentId(Integer headmasterId, Integer studentId);
+
+    @Query("select new TClassRoom(c, s.sysUserInfo) " +
+            "from TClassRoom c " +
+            "left join SysUser s on c.headmasterId = s.id " +
+            "where c.id = ?1")
+    TClassRoom findTClassRoomInfoById(Integer id);
 }

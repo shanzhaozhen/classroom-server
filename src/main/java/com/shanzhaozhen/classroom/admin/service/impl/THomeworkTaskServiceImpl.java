@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -88,6 +89,16 @@ public class THomeworkTaskServiceImpl implements THomeworkTaskService {
         map.put("success", true);
         map.put("msg", "删除成功");
         return map;
+    }
+
+    @Override
+    public List<THomeworkTask> getHomeworkTaskListByClassId(Integer classId) {
+        return tHomeworkTaskRepository.findTHomeworkTasksByClassIdAndAnnounceIsTrue(classId);
+    }
+
+    @Override
+    public THomeworkTask getTHomeworkTaskById(Integer id) {
+        return tHomeworkTaskRepository.findTHomeworkTaskById(id);
     }
 
 }

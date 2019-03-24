@@ -10,7 +10,7 @@ public interface TStudentService {
 
     Page<TStudent> getTStudentPage(Integer classId, String keyword, Pageable pageable);
 
-    Map<String, Object> joinClass(TStudent tStudent);
+    Map<String, Object> joinClass(Integer classId);
 
     Map<String, Object> moveOutOfClass(Integer id);
 

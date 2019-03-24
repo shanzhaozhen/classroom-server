@@ -1,0 +1,7 @@
+upload:
+  relativePath: /uploads/**
+  realPath: /home/webFile/
+
+
+logging:
+  file: log/SpringSecurity.log

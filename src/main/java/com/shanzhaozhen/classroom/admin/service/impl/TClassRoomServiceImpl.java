@@ -6,6 +6,7 @@ import com.shanzhaozhen.classroom.admin.service.TStudentService;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.TClassRoom;
 import com.shanzhaozhen.classroom.admin.repository.TClassRoomRepository;
+import com.shanzhaozhen.classroom.bean.TStudent;
 import com.shanzhaozhen.classroom.param.KeyValueParam;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.BeanUtils;
@@ -97,6 +98,28 @@ public class TClassRoomServiceImpl implements TClassRoomService {
         }
         List<KeyValueParam> list = tClassRoomRepository.findSimpleTClassRoomsByHeadmasterId(sysUser.getId());
         return list;
+    }
+
+    @Override
+    public List<TClassRoom> searchClassRoom(String keyword) {
+        keyword = "%" + keyword + "%";
+        return tClassRoomRepository.findTClassRoomsByKeyword(keyword, keyword);
+    }
+
+    @Override
+    public List<TClassRoom> getMyClassRoom() {
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            return null;
+        }
+        List<TClassRoom> list = tClassRoomRepository.findTClassRoomsByHeadmasterIdAndStudentId(sysUser.getId(), sysUser.getId());
+        return list;
+    }
+
+    @Override
+    public TClassRoom getClassRoomById(Integer id) {
+        return tClassRoomRepository.findTClassRoomInfoById(id);
     }
 
 }

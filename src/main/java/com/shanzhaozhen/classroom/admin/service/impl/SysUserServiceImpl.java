@@ -8,6 +8,7 @@ import com.shanzhaozhen.classroom.bean.SysUserInfo;
 import com.shanzhaozhen.classroom.config.MyJwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +55,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
 
         map.put("success", true);
+        map.put("username", sysUser.getUsername());
         map.put("fullName", sysUserInfo.getFullName());
         map.put("nickName", sysUserInfo.getNickName());
         map.put("avatarUrl", sysUserInfo.getAvatarUrl());
@@ -70,6 +72,13 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public SysUser getSysUserByOpenId(String openId) {
         return sysUserRepository.findSysUserByOpenId(openId);
+    }
+
+    @Override
+    @Transactional
+    public Map<String, Object> saveSysUser(SysUser sysUser) {
+        sysUserRepository.save(sysUser);
+        return null;
     }
 
 }

@@ -11,10 +11,10 @@ public class TSignIn extends BaseBean {
     private Integer id;
 
     @Column(nullable = false)
-    private String signInTaskId;
+    private Integer signInTaskId;
 
     @Column(nullable = false)
-    private String createrId;
+    private Integer createrId;
 
     //经度
     @Column(precision=20, scale=17)
@@ -33,7 +33,7 @@ public class TSignIn extends BaseBean {
     public TSignIn() {
     }
 
-    public TSignIn(String signInTaskId, String createrId, Double longitude, Double latitude, String fullName, String nickname) {
+    public TSignIn(Integer signInTaskId, Integer createrId, Double longitude, Double latitude, String fullName, String nickname) {
         this.signInTaskId = signInTaskId;
         this.createrId = createrId;
         this.longitude = longitude;
@@ -64,19 +64,19 @@ public class TSignIn extends BaseBean {
         this.id = id;
     }
 
-    public String getSignInTaskId() {
+    public Integer getSignInTaskId() {
         return signInTaskId;
     }
 
-    public void setSignInTaskId(String signInTaskId) {
+    public void setSignInTaskId(Integer signInTaskId) {
         this.signInTaskId = signInTaskId;
     }
 
-    public String getCreaterId() {
+    public Integer getCreaterId() {
         return createrId;
     }
 
-    public void setCreaterId(String createrId) {
+    public void setCreaterId(Integer createrId) {
         this.createrId = createrId;
     }
 

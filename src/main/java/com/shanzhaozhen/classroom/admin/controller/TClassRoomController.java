@@ -2,6 +2,7 @@ package com.shanzhaozhen.classroom.admin.controller;
 
 import com.shanzhaozhen.classroom.admin.service.TClassRoomService;
 import com.shanzhaozhen.classroom.bean.TClassRoom;
+import com.shanzhaozhen.classroom.bean.THomeworkTask;
 import com.shanzhaozhen.classroom.param.KeyValueParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -43,6 +44,24 @@ public class TClassRoomController {
     public List<KeyValueParam> getTClassRoomList() {
         List<KeyValueParam> list = tClassRoomService.getTClassRoomSimpleList();
         return list;
+    }
+
+    @GetMapping("/classroom/search")
+    public List<TClassRoom> searchClassRoom(String keyword) {
+        List<TClassRoom> list = tClassRoomService.searchClassRoom(keyword);
+        return list;
+    }
+
+    @GetMapping("/classroom/my")
+    public List<TClassRoom> getTClassRoom() {
+        List<TClassRoom> list = tClassRoomService.getMyClassRoom();
+        return list;
+    }
+
+    @GetMapping("/classroom/info/{id}")
+    public TClassRoom getTClassRoomInfo(@PathVariable("id") Integer id) {
+        TClassRoom tClassRoom = tClassRoomService.getClassRoomById(id);
+        return tClassRoom;
     }
 
 }

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface TSignInTaskRepository extends JpaRepository<TSignInTask, Integer> {
 
     TSignInTask findTSignInTaskById(Integer id);
@@ -19,5 +21,5 @@ public interface TSignInTaskRepository extends JpaRepository<TSignInTask, Intege
     @Query("select s from TSignInTask s where s.createrId = ?1 and s.classId = ?2 and (s.name like ?3 or s.outline like ?4)")
     Page<TSignInTask> findTSignInTasksByCreaterIdAndClassIdAndKeyword(Integer createrId, Integer classId, String keyword1, String keyword2, Pageable pageable);
 
-
+    List<TSignInTask> findTSignInTasksByClassIdAndAnnounceIsTrue(Integer classId);
 }

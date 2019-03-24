@@ -1,8 +1,11 @@
 package com.shanzhaozhen.classroom.admin.service.impl;
 
 import com.shanzhaozhen.classroom.admin.repository.TStudentRepository;
+import com.shanzhaozhen.classroom.admin.service.SysUserService;
 import com.shanzhaozhen.classroom.admin.service.TStudentService;
+import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.TStudent;
+import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,9 @@ import java.util.Map;
 public class TStudentServiceImpl implements TStudentService {
 
     @Autowired
+    private SysUserService sysUserService;
+
+    @Autowired
     private TStudentRepository tStudentRepository;
 
     @Override
@@ -26,9 +32,30 @@ public class TStudentServiceImpl implements TStudentService {
 
     @Override
     @Transactional
-    public Map<String, Object> joinClass(TStudent tStudent) {
+    public Map<String, Object> joinClass(Integer classId) {
+        Map<String, Object> map = new HashMap<>();
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            map.put("success", false);
+            map.put("msg", "加入失败，没有找到该操作对应的用户");
+            return map;
+        }
+        TStudent tStudent = tStudentRepository.findTStudentByClassIdAndStudentId(classId, sysUser.getId());
+        if (tStudent == null) {
+            tStudent = new TStudent();
+            tStudent.setClassId(classId);
+            tStudent.setStudentId(sysUser.getId());
+            tStudentRepository.save(tStudent);
+            map.put("success", true);
+            map.put("msg", "加入成功");
+            return map;
 
-        return null;
+        } else {
+            map.put("success", false);
+            map.put("msg", "请勿重复加入");
+            return map;
+        }
     }
 
     @Override

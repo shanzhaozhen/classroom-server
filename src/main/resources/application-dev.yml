@@ -1,0 +1,7 @@
+upload:
+  relativePath: /uploads/**
+  realPath: C:/devFile/
+
+logging:
+  file: log/SpringSecurity.log
+

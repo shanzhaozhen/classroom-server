@@ -12,4 +12,6 @@ public interface SysUserService {
     SysUser getSysUserByUsername(String username);
 
     SysUser getSysUserByOpenId(String openId);
+
+    Map<String, Object> saveSysUser(SysUser sysUser);
 }
