@@ -11,4 +11,6 @@ public interface THomeworkService {
     Page<THomework> getTHomeworkPage(Integer homeworkTaskId, String keyword, Pageable pageable);
 
     Map<String, Object> giveHomeworkScore(Integer homeworkId, Integer score);
+
+    Map<String, Object> saveTHomework(THomework tHomework);
 }

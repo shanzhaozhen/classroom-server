@@ -10,11 +10,14 @@ public interface THomeworkRepository extends JpaRepository<THomework, Integer> {
 
     THomework findTHomeworkById(Integer id);
 
+    THomework findTHomeworkByHomeworkTaskIdAndCreaterId(Integer homeworkTaskId, Integer createrId);
+
+
     @Query("select new THomework(h, u.sysUserInfo.fullName, u.sysUserInfo.nickName) " +
             "from TStudent s " +
             "left join SysUser u on u.id = s.studentId " +
             "left join THomeworkTask ht on ht.classId = s.classId " +
-            "left join THomework h on h.homewordTaskId = ht.id and h.createrId = s.studentId " +
+            "left join THomework h on h.homeworkTaskId = ht.id and h.createrId = s.studentId " +
             "where ht.id = ?1 and (u.sysUserInfo.fullName like ?2 or u.sysUserInfo.nickName like ?3)")
     Page<THomework> findTHomeworksByHomeworkTaskIdAndKeyword(Integer homeworkTaskId, String keyword1, String keyword2, Pageable pageable);
 

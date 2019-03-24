@@ -40,7 +40,7 @@ public class FileUtils {
             multipartFile.transferTo(file);
             map.put("success", true);
             map.put("msg", "文件上传成功！");
-            map.put("data", relativePath + newPath + newFileName);
+            map.put("relativePath", relativePath + newPath + "/" + newFileName);
         } catch (IOException e) {
             e.printStackTrace();
             map.put("success", false);

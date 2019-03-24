@@ -1,5 +1,5 @@
 upload:
-  relativePath: /uploads/**
+  relativePath: /files/
   realPath: C:/devFile/
 
 logging:

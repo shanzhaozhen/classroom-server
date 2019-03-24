@@ -12,7 +12,7 @@ public class THomework extends BaseBean {
 
     //作业任务id
     @Column(nullable = false)
-    private Integer homewordTaskId;
+    private Integer homeworkTaskId;
 
     //作业提交人id
     @Column(nullable = false)
@@ -20,6 +20,9 @@ public class THomework extends BaseBean {
 
     //提交的内容
     private String content;
+
+    //作业路径
+    private String fileUrl;
 
     //分数
     private Integer score;
@@ -33,10 +36,11 @@ public class THomework extends BaseBean {
     public THomework() {
     }
 
-    public THomework(Integer homewordTaskId, Integer createrId, String content, Integer score, String fullName, String nickname) {
-        this.homewordTaskId = homewordTaskId;
+    public THomework(Integer homeworkTaskId, Integer createrId, String content, String fileUrl, Integer score, String fullName, String nickname) {
+        this.homeworkTaskId = homeworkTaskId;
         this.createrId = createrId;
         this.content = content;
+        this.fileUrl = fileUrl;
         this.score = score;
         this.fullName = fullName;
         this.nickname = nickname;
@@ -45,9 +49,10 @@ public class THomework extends BaseBean {
     public THomework(THomework tHomework, String fullName, String nickname) {
         if (tHomework != null) {
             this.id = tHomework.getId();
-            this.homewordTaskId = tHomework.getHomewordTaskId();
+            this.homeworkTaskId = tHomework.getHomeworkTaskId();
             this.createrId = tHomework.getCreaterId();
             this.content = tHomework.getContent();
+            this.fileUrl = tHomework.getFileUrl();
             this.score = tHomework.getScore();
             super.setCreatedDate(tHomework.getCreatedDate());
             super.setLastModifiedDate(tHomework.getLastModifiedDate());
@@ -64,12 +69,12 @@ public class THomework extends BaseBean {
         this.id = id;
     }
 
-    public Integer getHomewordTaskId() {
-        return homewordTaskId;
+    public Integer getHomeworkTaskId() {
+        return homeworkTaskId;
     }
 
-    public void setHomewordTaskId(Integer homewordTaskId) {
-        this.homewordTaskId = homewordTaskId;
+    public void setHomeworkTaskId(Integer homeworkTaskId) {
+        this.homeworkTaskId = homeworkTaskId;
     }
 
     public Integer getCreaterId() {
@@ -86,6 +91,14 @@ public class THomework extends BaseBean {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
     public Integer getScore() {
