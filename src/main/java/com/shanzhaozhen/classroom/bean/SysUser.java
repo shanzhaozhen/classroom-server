@@ -24,6 +24,8 @@ public class SysUser extends BaseBean implements UserDetails {
 
     private String openId;
 
+    private String faceToken;
+
     @Transient
     private Set<GrantedAuthority> authorities;
 
@@ -82,6 +84,14 @@ public class SysUser extends BaseBean implements UserDetails {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public String getFaceToken() {
+        return faceToken;
+    }
+
+    public void setFaceToken(String faceToken) {
+        this.faceToken = faceToken;
     }
 
     @Override

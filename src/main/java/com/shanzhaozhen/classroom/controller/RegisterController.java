@@ -1,5 +1,6 @@
 package com.shanzhaozhen.classroom.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/register")
 public class RegisterController {
 
@@ -16,13 +17,11 @@ public class RegisterController {
     private RegisterService registerService;
 
     @PostMapping
-    @ResponseBody
-    public Map<String, Object> register(@RequestBody SysUser sysUser) {
-        return registerService.RegisterNewUser(sysUser);
+    public Map<String, Object> register(@RequestBody JSONObject jsonParam) {
+        return registerService.RegisterNewUser(jsonParam);
     }
 
     @GetMapping("/{username}")
-    @ResponseBody
     public Map<String, Boolean> checkUserName(@PathVariable("username") String username) {
         return registerService.checkUsername(username);
     }

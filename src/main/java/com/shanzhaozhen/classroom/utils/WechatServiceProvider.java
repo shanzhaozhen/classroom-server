@@ -1,9 +1,8 @@
-package com.shanzhaozhen.classroom.config;
+package com.shanzhaozhen.classroom.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.shanzhaozhen.classroom.config.HttpClientUtils;
 import com.shanzhaozhen.classroom.param.AccessToken;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -13,9 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -231,5 +229,32 @@ public class WechatServiceProvider {
 
     public String getProjectUrl() {
         return projectUrl;
+    }
+
+    /**
+     * 获取openId
+     */
+    public Map<String, Object> getMpOpenId(String code) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        if (StringUtils.isEmpty(code)) {
+            map.put("success", false);
+            map.put("msg", "缺少code");
+            return map;
+        }
+
+        String openId = this.getOpenIdByCode2SessionAndCode(code);
+
+        if (StringUtils.isEmpty(openId)) {
+            map.put("success", false);
+            map.put("msg", "获取openId失败");
+            return map;
+        }
+
+        map.put("success", true);
+        map.put("msg", "openId获取成功");
+        map.put("openId", openId);
+        return map;
     }
 }

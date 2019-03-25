@@ -111,4 +111,28 @@ public class THomeworkServiceImpl implements THomeworkService {
         return map;
     }
 
+    @Override
+    public Map<String, Object> getTHomework(Integer id) {
+        Map<String, Object> map = new HashMap<>();
+
+        if (id == null) {
+            map.put("success", false);
+            map.put("msg", "获取作业数据失败");
+            return map;
+        }
+
+        THomework tHomework = tHomeworkRepository.findTHomeworkAndInfoById(id);
+
+        if (tHomework == null) {
+            map.put("success", false);
+            map.put("msg", "获取作业数据失败");
+            return map;
+        }
+
+        map.put("success", true);
+        map.put("msg", "获取作业数据成功");
+        map.put("data", tHomework);
+        return map;
+    }
+
 }

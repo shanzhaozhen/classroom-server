@@ -15,6 +15,8 @@ public class SysUserInfo extends BaseBean {
 
     private String fullName = "";
 
+    private String number;
+
     private Date birthday;
 
     private String email;
@@ -67,6 +69,14 @@ public class SysUserInfo extends BaseBean {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public Date getBirthday() {

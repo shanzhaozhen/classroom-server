@@ -1,6 +1,6 @@
 package com.shanzhaozhen.classroom.service.impl;
 
-import com.shanzhaozhen.classroom.admin.repository.SysUserInfoRepository;
+import com.alibaba.fastjson.JSONObject;
 import com.shanzhaozhen.classroom.admin.repository.SysUserRepository;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.SysUserInfo;
@@ -23,26 +23,35 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     @Transactional
-    public Map<String, Object> RegisterNewUser(SysUser sysUser) {
-        if (StringUtils.isEmpty(sysUser.getUsername())) {
+    public Map<String, Object> RegisterNewUser(JSONObject jsonParam) {
+
+        String username = jsonParam.getString("username");
+        String password = jsonParam.getString("password");
+        String fullName = jsonParam.getString("fullName");
+        String number = jsonParam.getString("number");
+
+        if (StringUtils.isEmpty(username)) {
             return MessageUtils.resultFailureMessage("填写的用户名有误！");
         }
-        if (StringUtils.isEmpty(sysUser.getPassword())) {
+        if (StringUtils.isEmpty(password)) {
             return MessageUtils.resultFailureMessage("填写的密码有误！");
         }
-        int count = sysUserRepository.countByUsername(sysUser.getUsername());
+        int count = sysUserRepository.countByUsername(username);
         if (count > 0) {
             return MessageUtils.resultFailureMessage("注册失败，用户名已存在！");
         }
-        SysUser newUser = new SysUser();
-        newUser.setUsername(sysUser.getUsername());
-        newUser.setPassword(PasswordUtils.encryption(sysUser.getPassword()));
-        newUser.setAccountNonExpired(true);
-        newUser.setAccountNonLocked(true);
-        newUser.setCredentialsNonExpired(true);
-        newUser.setEnabled(true);
-        newUser.setSysUserInfo(new SysUserInfo());
-        sysUserRepository.save(newUser);
+        SysUser sysUser = new SysUser();
+        sysUser.setUsername(username);
+        sysUser.setPassword(PasswordUtils.encryption(password));
+        sysUser.setAccountNonExpired(true);
+        sysUser.setAccountNonLocked(true);
+        sysUser.setCredentialsNonExpired(true);
+        sysUser.setEnabled(true);
+        SysUserInfo sysUserInfo = new SysUserInfo();
+        sysUserInfo.setFullName(fullName);
+        sysUserInfo.setNumber(number);
+        sysUser.setSysUserInfo(sysUserInfo);
+        sysUserRepository.save(sysUser);
         return MessageUtils.resultSuccessMessage("注册成功，等待管理员通过审核！");
     }
 

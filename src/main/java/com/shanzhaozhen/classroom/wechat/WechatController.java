@@ -4,11 +4,10 @@ import com.shanzhaozhen.classroom.admin.service.SysUserService;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.SysUserInfo;
 import com.shanzhaozhen.classroom.config.MyJwtTokenProvider;
-import com.shanzhaozhen.classroom.config.WechatServiceProvider;
+import com.shanzhaozhen.classroom.utils.WechatServiceProvider;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,36 +28,12 @@ public class WechatController {
     @Autowired
     private SysUserService sysUserService;
 
-    @GetMapping("/openid")
-    public Map<String, Object> getMpOpenId(String code) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        if (StringUtils.isEmpty(code)) {
-            map.put("success", false);
-            map.put("msg", "缺少code");
-            return map;
-        }
-
-        String openId = wechatServiceProvider.getOpenIdByCode2SessionAndCode(code);
-
-        if (StringUtils.isEmpty(openId)) {
-            map.put("success", false);
-            map.put("msg", "获取openId失败");
-            return map;
-        }
-
-        map.put("success", true);
-        map.put("msg", "openId获取成功");
-        map.put("openId", openId);
-        return map;
-    }
 
     @PostMapping("/login")
     public Map<String, Object> wechatLogin(@RequestBody String code) {
         Map<String, Object> map;
 
-        map = this.getMpOpenId(code);
+        map = wechatServiceProvider.getMpOpenId(code);
 
         if ((boolean) map.get("success") == true) {
             String openId = (String) map.get("openId");

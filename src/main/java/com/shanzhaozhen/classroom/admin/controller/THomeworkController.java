@@ -29,6 +29,11 @@ public class THomeworkController {
         return tHomeworkService.giveHomeworkScore(homeworkId, score);
     }
 
+    @GetMapping("/homework/{id}")
+    public Map<String, Object> getTHomework(@PathVariable("id") Integer id) {
+        return tHomeworkService.getTHomework(id);
+    }
+
     @PostMapping("/homework")
     public Map<String, Object> saveTHomework(@RequestBody THomework tHomework) {
         return tHomeworkService.saveTHomework(tHomework);

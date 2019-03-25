@@ -1,5 +1,7 @@
 package com.shanzhaozhen.classroom.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -10,9 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class FileUtils {
+@Component
+public class FileServiceProvider {
 
-    public static Map<String, Object> saveFile(MultipartFile multipartFile, String relativePath, String realPath) {
+    @Value("${upload.relativePath}")
+    private String relativePath;
+
+    @Value("${upload.realPath}")
+    private String realPath;
+
+    public Map<String, Object> saveFile(MultipartFile multipartFile) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -49,6 +58,5 @@ public class FileUtils {
         }
         return map;
     }
-
 
 }

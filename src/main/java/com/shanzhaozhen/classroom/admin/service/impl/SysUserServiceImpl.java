@@ -6,6 +6,8 @@ import com.shanzhaozhen.classroom.bean.SysRole;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.SysUserInfo;
 import com.shanzhaozhen.classroom.config.MyJwtTokenProvider;
+import com.shanzhaozhen.classroom.utils.WechatServiceProvider;
+import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private SysUserRepository sysUserRepository;
+
+    @Autowired
+    private WechatServiceProvider wechatServiceProvider;
 
     @Override
     public Map<String, Object> getUserInfo(HttpServletRequest httpServletRequest) {
@@ -59,6 +64,7 @@ public class SysUserServiceImpl implements SysUserService {
         map.put("fullName", sysUserInfo.getFullName());
         map.put("nickName", sysUserInfo.getNickName());
         map.put("avatarUrl", sysUserInfo.getAvatarUrl());
+        map.put("openId", sysUser.getOpenId());
         map.put("roles", roles);
 
         return map;
@@ -79,6 +85,61 @@ public class SysUserServiceImpl implements SysUserService {
     public Map<String, Object> saveSysUser(SysUser sysUser) {
         sysUserRepository.save(sysUser);
         return null;
+    }
+
+    @Override
+    public Map<String, Object> binding(String code) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        String username = UserDetailsUtils.getUsername();
+
+        SysUser sysUser = sysUserRepository.findSysUserByUsername(username);
+
+        if (sysUser == null) {
+            map.put("success", false);
+            map.put("message", "没有找到当前的用户信息");
+            return map;
+        }
+
+        map = wechatServiceProvider.getMpOpenId(code);
+        if ((boolean) map.get("success") != true) {
+            return map;
+        }
+        String openId = (String) map.get("openId");
+        sysUser.setOpenId(openId);
+        sysUserRepository.save(sysUser);
+
+        map = new HashMap<>();
+        map.put("success", true);
+        map.put("msg", "绑定微信成功");
+
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> unbinding() {
+
+        Map<String, Object> map = new HashMap<>();
+
+        String username = UserDetailsUtils.getUsername();
+
+        SysUser sysUser = sysUserRepository.findSysUserByUsername(username);
+
+        if (sysUser == null) {
+            map.put("success", false);
+            map.put("message", "没有找到当前的用户信息");
+            return map;
+        }
+
+        sysUser.setOpenId("");
+        sysUserRepository.save(sysUser);
+
+        map = new HashMap<>();
+        map.put("success", true);
+        map.put("msg", "解绑微信成功");
+
+        return map;
     }
 
 }

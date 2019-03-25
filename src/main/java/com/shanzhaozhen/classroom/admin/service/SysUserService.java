@@ -14,4 +14,8 @@ public interface SysUserService {
     SysUser getSysUserByOpenId(String openId);
 
     Map<String, Object> saveSysUser(SysUser sysUser);
+
+    Map<String, Object> binding(String code);
+
+    Map<String, Object> unbinding();
 }

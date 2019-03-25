@@ -13,4 +13,6 @@ public interface THomeworkService {
     Map<String, Object> giveHomeworkScore(Integer homeworkId, Integer score);
 
     Map<String, Object> saveTHomework(THomework tHomework);
+
+    Map<String, Object> getTHomework(Integer id);
 }

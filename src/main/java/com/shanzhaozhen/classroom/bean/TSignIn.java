@@ -28,21 +28,25 @@ public class TSignIn extends BaseBean {
     private String fullName;
 
     @Transient
+    private String number;
+
+    @Transient
     private String nickname;
 
     public TSignIn() {
     }
 
-    public TSignIn(Integer signInTaskId, Integer createrId, Double longitude, Double latitude, String fullName, String nickname) {
+    public TSignIn(Integer signInTaskId, Integer createrId, Double longitude, Double latitude, String fullName, String number, String nickname) {
         this.signInTaskId = signInTaskId;
         this.createrId = createrId;
         this.longitude = longitude;
         this.latitude = latitude;
         this.fullName = fullName;
+        this.number = number;
         this.nickname = nickname;
     }
 
-    public TSignIn(TSignIn tSignIn, String fullName, String nickname) {
+    public TSignIn(TSignIn tSignIn, String fullName, String number, String nickname) {
         if (tSignIn != null) {
             this.id = tSignIn.getId();
             this.signInTaskId = tSignIn.getSignInTaskId();
@@ -53,6 +57,7 @@ public class TSignIn extends BaseBean {
             super.setLastModifiedDate(tSignIn.getLastModifiedDate());
         }
         this.fullName = fullName;
+        this.number = number;
         this.nickname = nickname;
     }
 
@@ -102,6 +107,14 @@ public class TSignIn extends BaseBean {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getNickname() {

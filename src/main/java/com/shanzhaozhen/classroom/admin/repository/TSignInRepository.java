@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface TSignInRepository extends JpaRepository<TSignIn, Integer> {
 
-    @Query("select new TSignIn(si, u.sysUserInfo.fullName as fullName, u.sysUserInfo.nickName as nickName) " +
+    @Query("select new TSignIn(si, u.sysUserInfo.fullName, u.sysUserInfo.number, u.sysUserInfo.nickName) " +
             "from TStudent s " +
             "left join SysUser u on u.id = s.studentId " +
             "left join TSignInTask sit on sit.classId = s.classId " +
