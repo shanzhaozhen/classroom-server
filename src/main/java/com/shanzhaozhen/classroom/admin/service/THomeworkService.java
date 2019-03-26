@@ -15,4 +15,6 @@ public interface THomeworkService {
     Map<String, Object> saveTHomework(THomework tHomework);
 
     Map<String, Object> getTHomework(Integer id);
+
+    Map<String, Object> getTHomeworkBySignInTaskId(Integer homeworkTaskId);
 }

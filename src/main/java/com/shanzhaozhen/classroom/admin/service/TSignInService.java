@@ -11,4 +11,6 @@ public interface TSignInService {
     Page<TSignIn> getTSignInPage(Integer signInTaskId, String keyword, Pageable pageable);
 
     Map<String, Object> signIn(TSignIn tSignIn);
+
+    Map<String, Object> getTSignInBySignInTaskId(Integer signInTaskId);
 }

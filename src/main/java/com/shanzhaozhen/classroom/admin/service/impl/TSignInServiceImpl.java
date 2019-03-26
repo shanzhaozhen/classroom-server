@@ -82,7 +82,8 @@ public class TSignInServiceImpl implements TSignInService {
             map.put("msg", "考勤已经结束");
             return map;
         }
-
+        double m = LocationUtils.distanceByLongNLat(tSignInTask.getLongitude(), tSignInTask.getLatitude(),
+                tSignIn.getLongitude(), tSignIn.getLatitude());
         if (LocationUtils.distanceByLongNLat(tSignInTask.getLongitude(), tSignInTask.getLatitude(),
                 tSignIn.getLongitude(), tSignIn.getLatitude()) > tSignInTask.getScope()) {
             map.put("success", false);
@@ -93,6 +94,33 @@ public class TSignInServiceImpl implements TSignInService {
         tSignInRepository.save(tSignIn);
         map.put("success", true);
         map.put("msg", "签到成功");
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> getTSignInBySignInTaskId(Integer signInTaskId) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            map.put("success", false);
+            map.put("msg", "获取失败");
+            return map;
+        }
+
+        TSignIn tSignIn = tSignInRepository.findTSignInByCreaterIdAndSignInTaskId(sysUser.getId(), signInTaskId);
+
+        if (tSignIn == null) {
+            map.put("success", false);
+            map.put("msg", "未签到");
+            return map;
+        }
+
+        map.put("success", true);
+        map.put("msg", "已签到");
+        map.put("data", tSignIn);
         return map;
     }
 

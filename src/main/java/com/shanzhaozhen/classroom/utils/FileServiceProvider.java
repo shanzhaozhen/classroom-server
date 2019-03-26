@@ -1,5 +1,8 @@
 package com.shanzhaozhen.classroom.utils;
 
+import com.shanzhaozhen.classroom.bean.TFileInfo;
+import com.shanzhaozhen.classroom.service.FileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +24,9 @@ public class FileServiceProvider {
     @Value("${upload.realPath}")
     private String realPath;
 
+    @Autowired
+    private FileService fileService;
+
     public Map<String, Object> saveFile(MultipartFile multipartFile) {
 
         Map<String, Object> map = new HashMap<>();
@@ -40,16 +46,28 @@ public class FileServiceProvider {
 
         String newFileName = UUID.randomUUID().toString() + suffixName;
 
-        File file = new File(savePath + "/" +  newFileName);
+        String newRealPath = savePath + "/" +  newFileName;
+
+        File file = new File(newRealPath);
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdirs();
         }
 
+        String newRelativePath = relativePath + newPath + "/" + newFileName;
+
+
         try {
             multipartFile.transferTo(file);
+            TFileInfo tFileInfo = new TFileInfo(fileName, suffixName, newRelativePath, newRealPath, null, null);
+            fileService.saveTFileInfo(tFileInfo);
+            if (tFileInfo.getId() == null) {
+                map.put("success", false);
+                map.put("msg", "文件上传失败！");
+                return map;
+            }
             map.put("success", true);
             map.put("msg", "文件上传成功！");
-            map.put("relativePath", relativePath + newPath + "/" + newFileName);
+            map.put("fileInfoId", tFileInfo.getId());
         } catch (IOException e) {
             e.printStackTrace();
             map.put("success", false);

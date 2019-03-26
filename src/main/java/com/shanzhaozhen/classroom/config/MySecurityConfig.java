@@ -77,7 +77,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
             .authorizeRequests()
 //                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/", "/login", "/register/**", "/druid/**", "/webjars/**", "/upload", "/files/**", "/error", "/wechat/**").permitAll()
+                .antMatchers("/", "/login", "/register/**", "/druid/**", "/webjars/**", "/upload", "/test", "/files/**", "/error", "/wechat/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

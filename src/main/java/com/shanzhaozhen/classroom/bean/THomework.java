@@ -21,11 +21,8 @@ public class THomework extends BaseBean {
     //提交的内容
     private String content;
 
-    //作业路径
-    private String fileUrl;
-
-    //作业附件文件名
-    private String fileName;
+    //附件id
+    private Integer fileInfoId;
 
     //分数
     private Integer score;
@@ -39,19 +36,22 @@ public class THomework extends BaseBean {
     @Transient
     private String nickname;
 
+    @Transient
+    private TFileInfo tFileInfo;
+
     public THomework() {
     }
 
-    public THomework(Integer homeworkTaskId, Integer createrId, String content, String fileUrl, String fileName, Integer score, String fullName, String number, String nickname) {
+    public THomework(Integer homeworkTaskId, Integer createrId, String content, Integer fileInfoId, Integer score, String fullName, String number, String nickname, TFileInfo tFileInfo) {
         this.homeworkTaskId = homeworkTaskId;
         this.createrId = createrId;
         this.content = content;
-        this.fileUrl = fileUrl;
-        this.fileName = fileName;
+        this.fileInfoId = fileInfoId;
         this.score = score;
         this.fullName = fullName;
         this.number = number;
         this.nickname = nickname;
+        this.tFileInfo = tFileInfo;
     }
 
     public THomework(THomework tHomework, String fullName, String number, String nickname) {
@@ -60,8 +60,7 @@ public class THomework extends BaseBean {
             this.homeworkTaskId = tHomework.getHomeworkTaskId();
             this.createrId = tHomework.getCreaterId();
             this.content = tHomework.getContent();
-            this.fileUrl = tHomework.getFileUrl();
-            this.fileName = tHomework.getFileName();
+            this.fileInfoId = tHomework.getFileInfoId();
             this.score = tHomework.getScore();
             super.setCreatedDate(tHomework.getCreatedDate());
             super.setLastModifiedDate(tHomework.getLastModifiedDate());
@@ -69,6 +68,21 @@ public class THomework extends BaseBean {
         this.fullName = fullName;
         this.number = number;
         this.nickname = nickname;
+    }
+
+    public THomework(THomework tHomework, String fullName, String number, String nickname, TFileInfo tFileInfo) {
+        this.id = tHomework.getId();
+        this.homeworkTaskId = tHomework.getHomeworkTaskId();
+        this.createrId = tHomework.getCreaterId();
+        this.content = tHomework.getContent();
+        this.fileInfoId = tHomework.getFileInfoId();
+        this.score = tHomework.getScore();
+        super.setCreatedDate(tHomework.getCreatedDate());
+        super.setLastModifiedDate(tHomework.getLastModifiedDate());
+        this.fullName = fullName;
+        this.number = number;
+        this.nickname = nickname;
+        this.tFileInfo = tFileInfo;
     }
 
     public Integer getId() {
@@ -103,20 +117,12 @@ public class THomework extends BaseBean {
         this.content = content;
     }
 
-    public String getFileName() {
-        return fileName;
+    public Integer getFileInfoId() {
+        return fileInfoId;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getFileUrl() {
-        return fileUrl;
-    }
-
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
+    public void setFileInfoId(Integer fileInfoId) {
+        this.fileInfoId = fileInfoId;
     }
 
     public Integer getScore() {
@@ -149,5 +155,13 @@ public class THomework extends BaseBean {
 
     public void setNickname(String nickName) {
         this.nickname = nickName;
+    }
+
+    public TFileInfo gettFileInfo() {
+        return tFileInfo;
+    }
+
+    public void settFileInfo(TFileInfo tFileInfo) {
+        this.tFileInfo = tFileInfo;
     }
 }

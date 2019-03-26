@@ -39,4 +39,9 @@ public class THomeworkController {
         return tHomeworkService.saveTHomework(tHomework);
     }
 
+    @GetMapping("/homework/taskid/{homeworkTaskId}")
+    public Map<String, Object> getSignInDetail(@PathVariable("homeworkTaskId") Integer homeworkTaskId) {
+        return tHomeworkService.getTHomeworkBySignInTaskId(homeworkTaskId);
+    }
+
 }

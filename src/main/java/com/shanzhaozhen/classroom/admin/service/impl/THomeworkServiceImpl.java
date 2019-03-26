@@ -96,7 +96,7 @@ public class THomeworkServiceImpl implements THomeworkService {
             return map;
         }
 
-        THomework temp = tHomeworkRepository.findTHomeworkByHomeworkTaskIdAndCreaterId(tHomework.getHomeworkTaskId(), sysUser.getId());
+        THomework temp = tHomeworkRepository.findTHomeworkByCreaterIdAndHomeworkTaskId(sysUser.getId(), tHomework.getHomeworkTaskId());
 
         if (temp != null) {
             map.put("success", false);
@@ -121,7 +121,7 @@ public class THomeworkServiceImpl implements THomeworkService {
             return map;
         }
 
-        THomework tHomework = tHomeworkRepository.findTHomeworkAndInfoById(id);
+        THomework tHomework = tHomeworkRepository.findTHomeworkAndInfoAndFileInfoById(id);
 
         if (tHomework == null) {
             map.put("success", false);
@@ -131,6 +131,32 @@ public class THomeworkServiceImpl implements THomeworkService {
 
         map.put("success", true);
         map.put("msg", "获取作业数据成功");
+        map.put("data", tHomework);
+        return map;
+    }
+
+    public Map<String, Object> getTHomeworkBySignInTaskId(Integer homeworkTaskId) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            map.put("success", false);
+            map.put("msg", "获取失败");
+            return map;
+        }
+
+        THomework tHomework = tHomeworkRepository.findTHomeworkByCreaterIdAndHomeworkTaskId(sysUser.getId(), homeworkTaskId);
+
+        if (tHomework == null) {
+            map.put("success", false);
+            map.put("msg", "未交作业");
+            return map;
+        }
+
+        map.put("success", true);
+        map.put("msg", "已交作业");
         map.put("data", tHomework);
         return map;
     }

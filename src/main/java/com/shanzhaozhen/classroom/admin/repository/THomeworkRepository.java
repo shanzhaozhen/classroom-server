@@ -10,7 +10,7 @@ public interface THomeworkRepository extends JpaRepository<THomework, Integer> {
 
     THomework findTHomeworkById(Integer id);
 
-    THomework findTHomeworkByHomeworkTaskIdAndCreaterId(Integer homeworkTaskId, Integer createrId);
+    THomework findTHomeworkByCreaterIdAndHomeworkTaskId(Integer createrId, Integer homeworkTaskId);
 
 
     @Query("select new THomework(h, u.sysUserInfo.fullName, u.sysUserInfo.number, u.sysUserInfo.nickName) " +
@@ -22,12 +22,17 @@ public interface THomeworkRepository extends JpaRepository<THomework, Integer> {
     Page<THomework> findTHomeworksByHomeworkTaskIdAndKeyword(Integer homeworkTaskId, String keyword1, String keyword2, Pageable pageable);
 
     @Query("select new THomework(h, u.sysUserInfo.fullName, u.sysUserInfo.number, u.sysUserInfo.nickName) " +
-            "from TStudent s " +
-            "left join SysUser u on u.id = s.studentId " +
-            "left join THomeworkTask ht on ht.classId = s.classId " +
-            "left join THomework h on h.homeworkTaskId = ht.id and h.createrId = s.studentId " +
+            "from THomework h " +
+            "left join SysUser u on u.id = h.createrId " +
             "where h.id = ?1")
     THomework findTHomeworkAndInfoById(Integer id);
+
+    @Query("select new THomework(h, u.sysUserInfo.fullName, u.sysUserInfo.number, u.sysUserInfo.nickName, f) " +
+            "from THomework h " +
+            "left join TFileInfo f on f.id = h.fileInfoId " +
+            "left join SysUser u on u.id = h.createrId " +
+            "where h.id = ?1")
+    THomework findTHomeworkAndInfoAndFileInfoById(Integer id);
 
 
 }

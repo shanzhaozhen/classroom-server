@@ -27,4 +27,9 @@ public class TSignInController {
         return tSignInService.signIn(tSignIn);
     }
 
+    @GetMapping("/signin/taskid/{signInTaskId}")
+    public Map<String, Object> getSignInDetail(@PathVariable("signInTaskId") Integer signInTaskId) {
+        return tSignInService.getTSignInBySignInTaskId(signInTaskId);
+    }
+
 }

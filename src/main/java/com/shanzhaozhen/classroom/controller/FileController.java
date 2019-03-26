@@ -22,4 +22,9 @@ public class FileController {
         return fileService.upload(multipartFile);
     }
 
+    @PostMapping("/download")
+    public Map<String, Object> download(Integer id) {
+        return null;
+    }
+
 }
