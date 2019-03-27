@@ -1,4 +1,4 @@
-package com.shanzhaozhen.classroom.config;
+package com.shanzhaozhen.classroom.utils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;

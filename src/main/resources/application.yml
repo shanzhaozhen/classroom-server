@@ -45,3 +45,9 @@ wechat:
   appId: wx9fb2dacbf0e32a67
   appSecret: 929fe77d770b9b51cd2f743f3c50836d
   projectUrl: http://elora.fnl56.com/recruitment/
+
+face:
+  key: vqBuqNEUXIK8iU0rBAQI4-BbvJLa98Jh
+  secret: g5mJ3WxS4Joc8PXdJ1rrjmAYZ00X9Qqo
+  detectApi: https://api-cn.faceplusplus.com/facepp/v3/detect
+  compareApi: https://api-cn.faceplusplus.com/facepp/v3/compare

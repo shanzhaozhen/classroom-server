@@ -2,13 +2,16 @@ package com.shanzhaozhen.classroom.utils;
 
 import com.shanzhaozhen.classroom.bean.TFileInfo;
 import com.shanzhaozhen.classroom.service.FileService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,7 +30,7 @@ public class FileServiceProvider {
     @Autowired
     private FileService fileService;
 
-    public Map<String, Object> saveFile(MultipartFile multipartFile) {
+    public Map<String, Object> saveFile(MultipartFile multipartFile, String fileName) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -36,7 +39,9 @@ public class FileServiceProvider {
             map.put("msg", "文件为空！");
         }
 
-        String fileName = multipartFile.getOriginalFilename();
+        if (StringUtils.isEmpty(fileName)) {
+            fileName = multipartFile.getOriginalFilename();
+        }
 
         String suffixName = fileName.substring(fileName.lastIndexOf("."));
 
@@ -77,4 +82,24 @@ public class FileServiceProvider {
         return map;
     }
 
+    public void downloadFile(TFileInfo tFileInfo, HttpServletResponse httpServletResponse) throws IOException {
+
+        File file = new File(tFileInfo.getRealPath());
+
+        if (!file.exists()) {
+//            httpServletResponse.getWriter().write("File Not Found");
+            return;
+        }
+        try(
+            FileInputStream fileInputStream = new FileInputStream(file)
+        ) {
+            // 设置以流的形式下载文件，这样可以实现任意格式的文件下载
+            httpServletResponse.setContentType("application/octet-stream");
+            httpServletResponse.addHeader("Content-Disposition", " attachment;filename=" + tFileInfo.getFileName());
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();            //请求完成servlet会自动关闭
+            IOUtils.copy(fileInputStream, servletOutputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

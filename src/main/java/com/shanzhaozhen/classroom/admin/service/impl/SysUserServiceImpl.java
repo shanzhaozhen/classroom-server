@@ -6,12 +6,14 @@ import com.shanzhaozhen.classroom.bean.SysRole;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.SysUserInfo;
 import com.shanzhaozhen.classroom.config.MyJwtTokenProvider;
+import com.shanzhaozhen.classroom.utils.FaceServiceProvider;
 import com.shanzhaozhen.classroom.utils.WechatServiceProvider;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -27,6 +29,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Autowired
     private WechatServiceProvider wechatServiceProvider;
+
+    @Autowired
+    private FaceServiceProvider faceServiceProvider;
 
     @Override
     public Map<String, Object> getUserInfo(HttpServletRequest httpServletRequest) {
@@ -61,6 +66,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         map.put("success", true);
         map.put("username", sysUser.getUsername());
+        map.put("number", sysUserInfo.getNumber());
         map.put("fullName", sysUserInfo.getFullName());
         map.put("nickName", sysUserInfo.getNickName());
         map.put("avatarUrl", sysUserInfo.getAvatarUrl());
@@ -85,6 +91,26 @@ public class SysUserServiceImpl implements SysUserService {
     public Map<String, Object> saveSysUser(SysUser sysUser) {
         sysUserRepository.save(sysUser);
         return null;
+    }
+
+    @Override
+    public Map<String, Object> getFaceToken(MultipartFile multipartFile) {
+        Map<String, Object> map = new HashMap<>();
+        if (multipartFile == null) {
+            map.put("success", false);
+            map.put("msg", "没有接受到你的照片");
+            return map;
+        }
+        String faceToken = faceServiceProvider.getFaceToken(multipartFile);
+        if (StringUtils.isEmpty(faceToken)) {
+            map.put("success", false);
+            map.put("msg", "脸谱生成失败");
+            return map;
+        }
+        map.put("success", true);
+        map.put("msg", "脸谱生成成功");
+        map.put("faceToken", "faceToken");
+        return map;
     }
 
     @Override

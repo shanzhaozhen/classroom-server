@@ -1,6 +1,7 @@
 package com.shanzhaozhen.classroom.admin.service;
 
 import com.shanzhaozhen.classroom.bean.SysUser;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -14,6 +15,8 @@ public interface SysUserService {
     SysUser getSysUserByOpenId(String openId);
 
     Map<String, Object> saveSysUser(SysUser sysUser);
+
+    Map<String, Object> getFaceToken(MultipartFile multipartFile);
 
     Map<String, Object> binding(String code);
 

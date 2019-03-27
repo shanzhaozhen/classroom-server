@@ -1,7 +1,6 @@
 package com.shanzhaozhen.classroom.utils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.shanzhaozhen.classroom.config.HttpClientUtils;
 import com.shanzhaozhen.classroom.param.AccessToken;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;

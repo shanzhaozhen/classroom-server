@@ -3,6 +3,7 @@ package com.shanzhaozhen.classroom.admin.controller;
 import com.shanzhaozhen.classroom.admin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -19,6 +20,10 @@ public class SysUserController {
         return sysUserService.getUserInfo(httpServletRequest);
     }
 
+    @PostMapping("face")
+    public Map<String, Object> getFaceToken(@RequestParam("file") MultipartFile multipartFile) {
+        return sysUserService.getFaceToken(multipartFile);
+    }
 
     @PutMapping("binding")
     public Map<String, Object> binding(@RequestBody String code) {
