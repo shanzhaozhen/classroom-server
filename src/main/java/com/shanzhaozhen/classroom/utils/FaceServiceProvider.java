@@ -1,6 +1,9 @@
 package com.shanzhaozhen.classroom.utils;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,8 +69,17 @@ public class FaceServiceProvider {
         map.put("api_secret", secret);
         map.put("image_base64", base64);
         String result = HttpClientUtils.sendPost(detectApi, map);
-
-        return null;
+        JSONObject jsonObject = JSONObject.parseObject(result);
+        if (jsonObject.getInteger("code") != null && jsonObject.getInteger("code") != HttpStatus.SC_OK ) {
+            return null;
+        }
+        JSONArray faces = jsonObject.getJSONArray("faces");
+        if (faces.isEmpty()) {
+            return null;
+        }
+        JSONObject face = faces.getJSONObject(0);
+        String faceToken = face.getString("face_token");
+        return faceToken;
     }
 
 }

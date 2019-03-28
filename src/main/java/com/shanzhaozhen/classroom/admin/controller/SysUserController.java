@@ -1,5 +1,6 @@
 package com.shanzhaozhen.classroom.admin.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shanzhaozhen.classroom.admin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,11 @@ public class SysUserController {
     @PostMapping("face")
     public Map<String, Object> getFaceToken(@RequestParam("file") MultipartFile multipartFile) {
         return sysUserService.getFaceToken(multipartFile);
+    }
+
+    @PutMapping("face")
+    public Map<String, Object> updateFaceToken(@RequestBody JSONObject jsonObject) {
+        return sysUserService.updateFaceToken(jsonObject);
     }
 
     @PutMapping("binding")

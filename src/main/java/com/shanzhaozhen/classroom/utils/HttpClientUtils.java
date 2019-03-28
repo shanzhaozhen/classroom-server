@@ -1,5 +1,6 @@
 package com.shanzhaozhen.classroom.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -7,6 +8,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,26 +41,15 @@ public class HttpClientUtils {
         String result = "";
 
         try {
-            // 通过请求对象获取响应对象
-            HttpResponse response = httpClient.execute(httpGet);
-
-            //判断网络连接状态码是否正常(0--200都数正常)
-            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                //获取响应实体
-                result = EntityUtils.toString(response.getEntity(),"utf-8");
-                logger.info("请求地址：" + url + "，返回数据：" + result);
-            } else {
-                result = "Error Response: " + response.getStatusLine().toString();
-            }
+            result = getResponseResult(httpClient, httpGet);
+            logger.info("请求地址：" + url + "，返回数据：" + result);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             logger.error("get请求，地址：" + url + " 失败:" + url, e);
-
         }
-
         return result;
     }
 
@@ -82,16 +74,8 @@ public class HttpClientUtils {
                 postData.add(new BasicNameValuePair(key, (String) paramMap.get(key)));
             }
             httpPost.setEntity(new UrlEncodedFormEntity(postData, "UTF-8"));
-            // 通过请求对象获取响应对象
-            HttpResponse response = httpClient.execute(httpPost);
-            //判断网络连接状态码是否正常(0--200都数正常)
-            if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                //获取响应实体
-                result = EntityUtils.toString(response.getEntity(),"utf-8");
-                logger.info("请求地址：" + url + "，返回数据：" + result);
-            } else {
-                result = "Error Response: " + response.getStatusLine().toString();
-            }
+            result = getResponseResult(httpClient, httpPost);
+            logger.info("请求地址：" + url + "，返回数据：" + result);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
@@ -100,6 +84,25 @@ public class HttpClientUtils {
             logger.error("post请求，地址：" + url + " 失败:" + url, e);
         }
 
+        return result;
+    }
+
+    public static String getResponseResult(CloseableHttpClient httpClient, HttpRequestBase httpRequestBase) throws IOException {
+        String result;
+        // 通过请求对象获取响应对象
+        HttpResponse response = httpClient.execute(httpRequestBase);
+        //判断网络连接状态码是否正常(0--200都数正常)
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            //获取响应实体
+            result = EntityUtils.toString(response.getEntity(),"utf-8");
+        } else {
+//            JSONObject jsonObject = new JSONObject();
+            Map<String, Object> map = new HashMap<>();
+            map.put("code", response.getStatusLine().getStatusCode());
+            map.put("reason", response.getStatusLine().getReasonPhrase());
+            map.put("protocolVersion", response.getStatusLine().getProtocolVersion());
+            result = JSONObject.toJSONString(map);
+        }
         return result;
     }
 

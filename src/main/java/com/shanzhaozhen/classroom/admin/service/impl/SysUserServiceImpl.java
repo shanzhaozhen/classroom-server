@@ -1,5 +1,6 @@
 package com.shanzhaozhen.classroom.admin.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shanzhaozhen.classroom.admin.repository.SysUserRepository;
 import com.shanzhaozhen.classroom.admin.service.SysUserService;
 import com.shanzhaozhen.classroom.bean.SysRole;
@@ -65,6 +66,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
 
         map.put("success", true);
+        map.put("faceToken", sysUser.getFaceToken());
         map.put("username", sysUser.getUsername());
         map.put("number", sysUserInfo.getNumber());
         map.put("fullName", sysUserInfo.getFullName());
@@ -109,7 +111,33 @@ public class SysUserServiceImpl implements SysUserService {
         }
         map.put("success", true);
         map.put("msg", "脸谱生成成功");
-        map.put("faceToken", "faceToken");
+        map.put("faceToken", faceToken);
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> updateFaceToken(JSONObject jsonObject) {
+        Map<String, Object> map = new HashMap<>();
+
+        String username = UserDetailsUtils.getUsername();
+
+        SysUser sysUser = sysUserRepository.findSysUserByUsername(username);
+
+        if (sysUser == null) {
+            map.put("success", false);
+            map.put("message", "没有找到当前的用户信息");
+            return map;
+        }
+
+        SysUserInfo sysUserInfo = sysUser.getSysUserInfo();
+        sysUser.setFaceToken(jsonObject.getString("faceToken"));
+        sysUserInfo.setFullName(jsonObject.getString("fullName"));
+        sysUserInfo.setNumber(jsonObject.getString("number"));
+
+        sysUserRepository.save(sysUser);
+
+        map.put("success", true);
+        map.put("message", "录入成功");
         return map;
     }
 

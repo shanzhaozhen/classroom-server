@@ -1,5 +1,6 @@
 package com.shanzhaozhen.classroom.admin.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,8 @@ public interface SysUserService {
     Map<String, Object> saveSysUser(SysUser sysUser);
 
     Map<String, Object> getFaceToken(MultipartFile multipartFile);
+
+    Map<String, Object> updateFaceToken(JSONObject jsonObject);
 
     Map<String, Object> binding(String code);
 
