@@ -38,7 +38,7 @@ public class TSignInTask extends BaseBean {
     private Date endDate;
 
     //签到方式
-    private Integer signInType;
+    private Integer[] signInType;
 
     //地址
     private String address;
@@ -113,11 +113,11 @@ public class TSignInTask extends BaseBean {
         this.endDate = endDate;
     }
 
-    public Integer getSignInType() {
+    public Integer[] getSignInType() {
         return signInType;
     }
 
-    public void setSignInType(Integer signInType) {
+    public void setSignInType(Integer[] signInType) {
         this.signInType = signInType;
     }
 

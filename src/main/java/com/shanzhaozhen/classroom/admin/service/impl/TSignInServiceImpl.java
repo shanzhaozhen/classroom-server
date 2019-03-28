@@ -7,12 +7,17 @@ import com.shanzhaozhen.classroom.admin.service.TSignInTaskService;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.TSignIn;
 import com.shanzhaozhen.classroom.bean.TSignInTask;
+import com.shanzhaozhen.classroom.common.CommonConst;
+import com.shanzhaozhen.classroom.utils.FaceServiceProvider;
 import com.shanzhaozhen.classroom.utils.LocationUtils;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
@@ -30,6 +35,9 @@ public class TSignInServiceImpl implements TSignInService {
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private FaceServiceProvider faceServiceProvider;
 
     @Override
     public Page<TSignIn> getTSignInPage(Integer signInTaskId, String keyword, Pageable pageable) {
@@ -82,15 +90,43 @@ public class TSignInServiceImpl implements TSignInService {
             map.put("msg", "考勤已经结束");
             return map;
         }
-        double m = LocationUtils.distanceByLongNLat(tSignInTask.getLongitude(), tSignInTask.getLatitude(),
-                tSignIn.getLongitude(), tSignIn.getLatitude());
-        if (LocationUtils.distanceByLongNLat(tSignInTask.getLongitude(), tSignInTask.getLatitude(),
-                tSignIn.getLongitude(), tSignIn.getLatitude()) > tSignInTask.getScope()) {
-            map.put("success", false);
-            map.put("msg", "不在签到的范围内");
-            return map;
+
+        Integer[] signInTypes = tSignInTask.getSignInType();
+
+        for (Integer signInType : signInTypes) {
+            if (signInType.equals(CommonConst.SignInType.LOCATION.getValue())) {
+                double distance = LocationUtils.distanceByLongNLat(tSignInTask.getLongitude(), tSignInTask.getLatitude(),
+                        tSignIn.getLongitude(), tSignIn.getLatitude());
+                if (distance > tSignInTask.getScope()) {
+                    map.put("success", false);
+                    map.put("msg", "不在签到的范围内");
+                    return map;
+                }
+            } else if (signInType.equals(CommonConst.SignInType.FACEDETECT.getValue())) {
+                if (StringUtils.isEmpty(sysUser.getFaceToken())) {
+                    map.put("success", false);
+                    map.put("msg", "未录入脸谱");
+                    return map;
+                }
+
+                if (StringUtils.isEmpty(tSignIn.getFaceToken())) {
+                    map.put("success", false);
+                    map.put("msg", "未识别脸谱");
+                    return map;
+                }
+
+                double confidence = faceServiceProvider.compareFaceResultConfidence(sysUser.getFaceToken(), tSignIn.getFaceToken());
+
+                if (confidence < 80) {
+                    map.put("success", false);
+                    map.put("msg", "人脸比对不正确");
+                    return map;
+                }
+
+            }
         }
 
+        tSignIn.setCreaterId(sysUser.getId());
         tSignInRepository.save(tSignIn);
         map.put("success", true);
         map.put("msg", "签到成功");

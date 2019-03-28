@@ -82,4 +82,26 @@ public class FaceServiceProvider {
         return faceToken;
     }
 
+    public JSONObject compareFace(String faceToken1, String faceToken2) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("api_key", key);
+        map.put("api_secret", secret);
+        map.put("face_token1", faceToken1);
+        map.put("face_token2", faceToken2);
+        String result = HttpClientUtils.sendPost(compareApi, map);
+        JSONObject jsonObject = JSONObject.parseObject(result);
+        if (jsonObject.getInteger("code") != null && jsonObject.getInteger("code") != HttpStatus.SC_OK ) {
+            return null;
+        }
+        return jsonObject;
+    }
+
+    public double compareFaceResultConfidence(String faceToken1, String faceToken2) {
+        JSONObject jsonObject = this.compareFace(faceToken1, faceToken2);
+        if (jsonObject == null) {
+            return 0;
+        }
+        return jsonObject.getDoubleValue("confidence");
+    }
+
 }

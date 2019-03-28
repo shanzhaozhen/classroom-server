@@ -24,6 +24,8 @@ public class TSignIn extends BaseBean {
     @Column(precision=20, scale=17)
     private Double latitude;
 
+    private String faceToken;
+
     @Transient
     private String fullName;
 
@@ -31,34 +33,36 @@ public class TSignIn extends BaseBean {
     private String number;
 
     @Transient
-    private String nickname;
+    private String nickName;
 
     public TSignIn() {
     }
 
-    public TSignIn(Integer signInTaskId, Integer createrId, Double longitude, Double latitude, String fullName, String number, String nickname) {
+    public TSignIn(Integer signInTaskId, Integer createrId, Double longitude, Double latitude, String faceToken, String fullName, String number, String nickName) {
         this.signInTaskId = signInTaskId;
         this.createrId = createrId;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.faceToken = faceToken;
         this.fullName = fullName;
         this.number = number;
-        this.nickname = nickname;
+        this.nickName = nickName;
     }
 
-    public TSignIn(TSignIn tSignIn, String fullName, String number, String nickname) {
+    public TSignIn(TSignIn tSignIn, String fullName, String number, String nickName) {
         if (tSignIn != null) {
             this.id = tSignIn.getId();
             this.signInTaskId = tSignIn.getSignInTaskId();
             this.createrId = tSignIn.getCreaterId();
             this.longitude = tSignIn.getLongitude();
             this.latitude = tSignIn.getLatitude();
+            this.faceToken = tSignIn.getFaceToken();
             super.setCreatedDate(tSignIn.getCreatedDate());
             super.setLastModifiedDate(tSignIn.getLastModifiedDate());
         }
         this.fullName = fullName;
         this.number = number;
-        this.nickname = nickname;
+        this.nickName = nickName;
     }
 
     public Integer getId() {
@@ -101,6 +105,14 @@ public class TSignIn extends BaseBean {
         this.latitude = latitude;
     }
 
+    public String getFaceToken() {
+        return faceToken;
+    }
+
+    public void setFaceToken(String faceToken) {
+        this.faceToken = faceToken;
+    }
+
     public String getFullName() {
         return fullName;
     }
@@ -117,11 +129,11 @@ public class TSignIn extends BaseBean {
         this.number = number;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }

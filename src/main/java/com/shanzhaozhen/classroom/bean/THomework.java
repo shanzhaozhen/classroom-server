@@ -34,7 +34,7 @@ public class THomework extends BaseBean {
     private String number;
 
     @Transient
-    private String nickname;
+    private String nickName;
 
     @Transient
     private TFileInfo tFileInfo;
@@ -42,7 +42,7 @@ public class THomework extends BaseBean {
     public THomework() {
     }
 
-    public THomework(Integer homeworkTaskId, Integer createrId, String content, Integer fileInfoId, Integer score, String fullName, String number, String nickname, TFileInfo tFileInfo) {
+    public THomework(Integer homeworkTaskId, Integer createrId, String content, Integer fileInfoId, Integer score, String fullName, String number, String nickName, TFileInfo tFileInfo) {
         this.homeworkTaskId = homeworkTaskId;
         this.createrId = createrId;
         this.content = content;
@@ -50,11 +50,11 @@ public class THomework extends BaseBean {
         this.score = score;
         this.fullName = fullName;
         this.number = number;
-        this.nickname = nickname;
+        this.nickName = nickName;
         this.tFileInfo = tFileInfo;
     }
 
-    public THomework(THomework tHomework, String fullName, String number, String nickname) {
+    public THomework(THomework tHomework, String fullName, String number, String nickName) {
         if (tHomework != null) {
             this.id = tHomework.getId();
             this.homeworkTaskId = tHomework.getHomeworkTaskId();
@@ -67,10 +67,10 @@ public class THomework extends BaseBean {
         }
         this.fullName = fullName;
         this.number = number;
-        this.nickname = nickname;
+        this.nickName = nickName;
     }
 
-    public THomework(THomework tHomework, String fullName, String number, String nickname, TFileInfo tFileInfo) {
+    public THomework(THomework tHomework, String fullName, String number, String nickName, TFileInfo tFileInfo) {
         this.id = tHomework.getId();
         this.homeworkTaskId = tHomework.getHomeworkTaskId();
         this.createrId = tHomework.getCreaterId();
@@ -81,7 +81,7 @@ public class THomework extends BaseBean {
         super.setLastModifiedDate(tHomework.getLastModifiedDate());
         this.fullName = fullName;
         this.number = number;
-        this.nickname = nickname;
+        this.nickName = nickName;
         this.tFileInfo = tFileInfo;
     }
 
@@ -149,12 +149,12 @@ public class THomework extends BaseBean {
         this.number = number;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickName) {
-        this.nickname = nickName;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public TFileInfo gettFileInfo() {
