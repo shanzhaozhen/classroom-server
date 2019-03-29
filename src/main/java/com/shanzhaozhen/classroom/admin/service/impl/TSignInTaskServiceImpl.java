@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,5 +106,41 @@ public class TSignInTaskServiceImpl implements TSignInTaskService {
     @Override
     public TSignInTask getTSignInTaskById(Integer id) {
         return tSignInTaskRepository.findTSignInTaskById(id);
+    }
+
+    @Override
+    public Map<String, Object> getAttendanceRateBySignInTaskId(Integer signInTaskId) {
+        Map<String, Object> map = new HashMap<>();
+
+        if (signInTaskId == null) {
+            map.put("success", false);
+            map.put("msg", "获取失败");
+            return map;
+        }
+
+        int studentNumber = tSignInTaskRepository.countStudentNumberBySignInTaskId(signInTaskId);
+
+        if (studentNumber == 0) {
+            map.put("success", false);
+            map.put("msg", "无学生班级");
+            return map;
+        }
+
+        int attendanceNumber = tSignInTaskRepository.countAttendanceNumberBySignInTaskId(signInTaskId);
+
+        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();
+        //可以设置精确几位小数
+        decimalFormat.setMaximumFractionDigits(2);
+        //模式 例如四舍五入
+        decimalFormat.setRoundingMode(RoundingMode.HALF_UP);
+        double accuracy_num = attendanceNumber / studentNumber * 100;
+        String attendanceRate = decimalFormat.format(accuracy_num) + "%";
+
+        map.put("success", true);
+        map.put("msg", "获取成功");
+        map.put("attendanceRate", attendanceRate);
+        map.put("attendanceNumber", attendanceNumber);
+        map.put("studentNumber", studentNumber);
+        return map;
     }
 }

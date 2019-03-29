@@ -48,4 +48,9 @@ public class TSignInTaskController {
         return tSignInTaskService.getSignInTaskListByClassId(classId);
     }
 
+    @GetMapping("/signintask/attendance/{id}")
+    public Map<String, Object> getAttendanceBySignInTaskId(@PathVariable("id") Integer signInTaskId) {
+        return tSignInTaskService.getAttendanceRateBySignInTaskId(signInTaskId);
+    }
+
 }

@@ -20,4 +20,6 @@ public interface TSignInTaskService {
     List<TSignInTask> getSignInTaskListByClassId(Integer classId);
 
     TSignInTask getTSignInTaskById(Integer id);
+
+    Map<String, Object> getAttendanceRateBySignInTaskId(Integer signInTaskId);
 }

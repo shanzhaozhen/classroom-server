@@ -22,4 +22,20 @@ public interface TSignInTaskRepository extends JpaRepository<TSignInTask, Intege
     Page<TSignInTask> findTSignInTasksByCreaterIdAndClassIdAndKeyword(Integer createrId, Integer classId, String keyword1, String keyword2, Pageable pageable);
 
     List<TSignInTask> findTSignInTasksByClassIdAndAnnounceIsTrue(Integer classId);
+
+    @Query("select count (st.id) " +
+            "from TSignInTask s " +
+            "left join TClassroom c on c.id = s.classId " +
+            "left join TStudent st on st.classId = c.id " +
+            "where s.id = ?1")
+    int countStudentNumberBySignInTaskId(Integer id);
+
+    @Query("select count (st.id) " +
+            "from TSignInTask s " +
+            "left join TClassroom c on c.id = s.classId " +
+            "left join TStudent st on st.classId = c.id " +
+            "left join TSignIn si on si.createrId = st.studentId and si.signInTaskId = s.id " +
+            "where s.id = ?1 and si.id is not null")
+    int countAttendanceNumberBySignInTaskId(Integer id);
+
 }

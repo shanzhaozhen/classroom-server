@@ -3,8 +3,8 @@ package com.shanzhaozhen.classroom.bean;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "t_class_room")
-public class TClassRoom extends BaseBean {
+@Table(name = "t_classroom")
+public class TClassroom extends BaseBean {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +38,10 @@ public class TClassRoom extends BaseBean {
     @Transient
     private SysUserInfo headmasterInfo;
 
-    public TClassRoom() {
+    public TClassroom() {
     }
 
-    public TClassRoom(String name, String outline, Integer classType, Integer headmasterId, Integer monitorId, boolean announce, SysUserInfo headmasterInfo, Long studentNumber) {
+    public TClassroom(String name, String outline, Integer classType, Integer headmasterId, Integer monitorId, boolean announce, SysUserInfo headmasterInfo, Long studentNumber) {
         this.name = name;
         this.outline = outline;
         this.classType = classType;
@@ -52,43 +52,43 @@ public class TClassRoom extends BaseBean {
         this.studentNumber = studentNumber;
     }
 
-//    public TClassRoom(TClassRoom tClassRoom, String headmasterName, Long studentNumber) {
-//        this.id = tClassRoom.getId();
-//        this.name = tClassRoom.getName();
-//        this.outline = tClassRoom.getOutline();
-//        this.classType = tClassRoom.getClassType();
-//        this.headmasterId = tClassRoom.getHeadmasterId();
-//        this.monitorId = tClassRoom.getMonitorId();
-//        this.announce = tClassRoom.isAnnounce();
-//        super.setCreatedDate(tClassRoom.getCreatedDate());
-//        super.setLastModifiedDate(tClassRoom.getLastModifiedDate());
+//    public TClassroom(TClassroom tClassroom, String headmasterName, Long studentNumber) {
+//        this.id = tClassroom.getId();
+//        this.name = tClassroom.getName();
+//        this.outline = tClassroom.getOutline();
+//        this.classType = tClassroom.getClassType();
+//        this.headmasterId = tClassroom.getHeadmasterId();
+//        this.monitorId = tClassroom.getMonitorId();
+//        this.announce = tClassroom.isAnnounce();
+//        super.setCreatedDate(tClassroom.getCreatedDate());
+//        super.setLastModifiedDate(tClassroom.getLastModifiedDate());
 //        this.studentNumber = studentNumber;
 //        this.headmasterName = headmasterName;
 //    }
 
-    public TClassRoom(TClassRoom tClassRoom, SysUserInfo headmasterInfo) {
-        this.id = tClassRoom.getId();
-        this.name = tClassRoom.getName();
-        this.outline = tClassRoom.getOutline();
-        this.classType = tClassRoom.getClassType();
-        this.headmasterId = tClassRoom.getHeadmasterId();
-        this.monitorId = tClassRoom.getMonitorId();
-        this.announce = tClassRoom.isAnnounce();
-        super.setCreatedDate(tClassRoom.getCreatedDate());
-        super.setLastModifiedDate(tClassRoom.getLastModifiedDate());
+    public TClassroom(TClassroom tClassroom, SysUserInfo headmasterInfo) {
+        this.id = tClassroom.getId();
+        this.name = tClassroom.getName();
+        this.outline = tClassroom.getOutline();
+        this.classType = tClassroom.getClassType();
+        this.headmasterId = tClassroom.getHeadmasterId();
+        this.monitorId = tClassroom.getMonitorId();
+        this.announce = tClassroom.isAnnounce();
+        super.setCreatedDate(tClassroom.getCreatedDate());
+        super.setLastModifiedDate(tClassroom.getLastModifiedDate());
         this.headmasterInfo = headmasterInfo;
     }
 
-    public TClassRoom(TClassRoom tClassRoom, Long studentNumber) {
-        this.id = tClassRoom.getId();
-        this.name = tClassRoom.getName();
-        this.outline = tClassRoom.getOutline();
-        this.classType = tClassRoom.getClassType();
-        this.headmasterId = tClassRoom.getHeadmasterId();
-        this.monitorId = tClassRoom.getMonitorId();
-        this.announce = tClassRoom.isAnnounce();
-        super.setCreatedDate(tClassRoom.getCreatedDate());
-        super.setLastModifiedDate(tClassRoom.getLastModifiedDate());
+    public TClassroom(TClassroom tClassroom, Long studentNumber) {
+        this.id = tClassroom.getId();
+        this.name = tClassroom.getName();
+        this.outline = tClassroom.getOutline();
+        this.classType = tClassroom.getClassType();
+        this.headmasterId = tClassroom.getHeadmasterId();
+        this.monitorId = tClassroom.getMonitorId();
+        this.announce = tClassroom.isAnnounce();
+        super.setCreatedDate(tClassroom.getCreatedDate());
+        super.setLastModifiedDate(tClassroom.getLastModifiedDate());
         this.studentNumber = studentNumber;
     }
 

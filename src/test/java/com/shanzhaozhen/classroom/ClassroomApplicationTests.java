@@ -4,7 +4,7 @@ import com.shanzhaozhen.classroom.admin.repository.*;
 import com.shanzhaozhen.classroom.bean.SysPermission;
 import com.shanzhaozhen.classroom.bean.SysRole;
 import com.shanzhaozhen.classroom.bean.SysUser;
-import com.shanzhaozhen.classroom.bean.TClassRoom;
+import com.shanzhaozhen.classroom.bean.TClassroom;
 import com.shanzhaozhen.classroom.utils.LocationUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +29,7 @@ public class ClassroomApplicationTests {
     private SysPermissionRepository sysPermissionRepository;
 
     @Autowired
-    private TClassRoomRepository tClassRoomRepository;
+    private TClassroomRepository tClassroomRepository;
 
     @Test
     public void contextLoads() {
