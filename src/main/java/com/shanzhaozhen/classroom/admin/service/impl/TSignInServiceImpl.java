@@ -16,13 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.crypto.Data;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TSignInServiceImpl implements TSignInService {
@@ -91,39 +86,45 @@ public class TSignInServiceImpl implements TSignInService {
             return map;
         }
 
-        Integer[] signInTypes = tSignInTask.getSignInType();
+        List<Integer> signInTypeList = Arrays.asList(tSignInTask.getSignInType());
 
-        for (Integer signInType : signInTypes) {
-            if (signInType.equals(CommonConst.SignInType.LOCATION.getValue())) {
-                double distance = LocationUtils.distanceByLongNLat(tSignInTask.getLongitude(), tSignInTask.getLatitude(),
-                        tSignIn.getLongitude(), tSignIn.getLatitude());
-                if (distance > tSignInTask.getScope()) {
-                    map.put("success", false);
-                    map.put("msg", "不在签到的范围内");
-                    return map;
-                }
-            } else if (signInType.equals(CommonConst.SignInType.FACEDETECT.getValue())) {
-                if (StringUtils.isEmpty(sysUser.getFaceToken())) {
-                    map.put("success", false);
-                    map.put("msg", "未录入脸谱");
-                    return map;
-                }
-
-                if (StringUtils.isEmpty(tSignIn.getFaceToken())) {
-                    map.put("success", false);
-                    map.put("msg", "未识别脸谱");
-                    return map;
-                }
-
-                double confidence = faceServiceProvider.compareFaceResultConfidence(sysUser.getFaceToken(), tSignIn.getFaceToken());
-
-                if (confidence < 80) {
-                    map.put("success", false);
-                    map.put("msg", "人脸比对不正确");
-                    return map;
-                }
-
+        if (signInTypeList.contains(CommonConst.SignInType.LOCATION.getValue())) {
+            if (tSignInTask.getLongitude() == null || tSignInTask.getLatitude() == null || tSignIn.getLongitude() == null || tSignIn.getLatitude() == null) {
+                map.put("success", false);
+                map.put("msg", "位置获取失败");
+                return map;
             }
+
+            double distance = LocationUtils.distanceByLongNLat(tSignInTask.getLongitude(), tSignInTask.getLatitude(),
+                    tSignIn.getLongitude(), tSignIn.getLatitude());
+            if (distance > tSignInTask.getScope()) {
+                map.put("success", false);
+                map.put("msg", "不在签到的范围内");
+                return map;
+            }
+        }
+
+        if (signInTypeList.contains(CommonConst.SignInType.FACEDETECT.getValue())) {
+            if (StringUtils.isEmpty(sysUser.getFaceToken())) {
+                map.put("success", false);
+                map.put("msg", "未录入脸谱");
+                return map;
+            }
+
+            if (StringUtils.isEmpty(tSignIn.getFaceToken())) {
+                map.put("success", false);
+                map.put("msg", "未识别脸谱");
+                return map;
+            }
+
+            double confidence = faceServiceProvider.compareFaceResultConfidence(sysUser.getFaceToken(), tSignIn.getFaceToken());
+
+            if (confidence < 80) {
+                map.put("success", false);
+                map.put("msg", "人脸比对不正确");
+                return map;
+            }
+
         }
 
         tSignIn.setCreaterId(sysUser.getId());

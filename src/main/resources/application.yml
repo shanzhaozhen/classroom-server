@@ -3,7 +3,7 @@ server:
     context-path: /classroom
 spring:
   profiles:
-    active: dev
+    active: pro
   jpa:
     hibernate:
       ddl-auto: update
@@ -13,7 +13,6 @@ spring:
     multipart:
       max-request-size: 20MB
       max-file-size: 20MB
-
 
   jackson:
     time-zone: GMT+8
