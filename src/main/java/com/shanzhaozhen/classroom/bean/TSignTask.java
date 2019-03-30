@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "t_sign_in_task")
-public class TSignInTask extends BaseBean {
+@Table(name = "t_sign_task")
+public class TSignTask extends BaseBean {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class TSignInTask extends BaseBean {
     private Date endDate;
 
     //签到方式
-    private Integer[] signInType;
+    private Integer[] signType;
 
     //地址
     private String address;
@@ -113,12 +113,12 @@ public class TSignInTask extends BaseBean {
         this.endDate = endDate;
     }
 
-    public Integer[] getSignInType() {
-        return signInType;
+    public Integer[] getSignType() {
+        return signType;
     }
 
-    public void setSignInType(Integer[] signInType) {
-        this.signInType = signInType;
+    public void setSignType(Integer[] signType) {
+        this.signType = signType;
     }
 
     public String getAddress() {

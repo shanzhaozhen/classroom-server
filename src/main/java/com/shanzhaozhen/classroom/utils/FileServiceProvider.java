@@ -85,21 +85,38 @@ public class FileServiceProvider {
     public void downloadFile(TFileInfo tFileInfo, HttpServletResponse httpServletResponse) throws IOException {
 
         File file = new File(tFileInfo.getRealPath());
+        this.downloadFile(file, tFileInfo.getFileName(), tFileInfo.getSuffixName(), httpServletResponse);
 
+    }
+
+    public void downloadFile(File file, String fileName, String suffixName, HttpServletResponse httpServletResponse) throws IOException {
         if (!file.exists()) {
 //            httpServletResponse.getWriter().write("File Not Found");
             return;
         }
-        try(
-            FileInputStream fileInputStream = new FileInputStream(file)
-        ) {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        this.downloadFile(fileInputStream, fileName, suffixName, httpServletResponse);
+    }
+
+    public void downloadFile(FileInputStream fileInputStream, String fileName, String suffixName, HttpServletResponse httpServletResponse) throws IOException {
+        if (StringUtils.isEmpty(fileName)) {
+            fileName = String.valueOf(System.currentTimeMillis()).substring(4, 13);
+            if (StringUtils.isEmpty(suffixName)) {
+                fileName += suffixName;
+            }
+        }
+        try {
             // 设置以流的形式下载文件，这样可以实现任意格式的文件下载
             httpServletResponse.setContentType("application/octet-stream");
-            httpServletResponse.addHeader("Content-Disposition", " attachment;filename=" + tFileInfo.getFileName());
+            httpServletResponse.addHeader("Content-Disposition", " attachment;filename=" + fileName);
             ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();            //请求完成servlet会自动关闭
             IOUtils.copy(fileInputStream, servletOutputStream);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            fileInputStream.close();
         }
     }
+
+
 }

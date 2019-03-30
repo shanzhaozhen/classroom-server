@@ -22,4 +22,19 @@ public interface THomeworkTaskRepository extends JpaRepository<THomeworkTask, In
     Page<THomeworkTask> findTHomeworkTasksByCreaterIdAndClassIdAndKeyword(Integer createrId, Integer classId, String keyword1, String keyword2, Pageable pageable);
 
     List<THomeworkTask> findTHomeworkTasksByClassIdAndAnnounceIsTrue(Integer classId);
+
+    @Query("select count (s.id) " +
+            "from THomeworkTask ht " +
+            "left join TClassroom c on c.id = ht.classId " +
+            "left join TStudent s on s.classId = c.id " +
+            "where ht.id = ?1")
+    int countStudentNumberByHomeworkTaskId(Integer homeworkTaskId);
+
+    @Query("select count (s.id) " +
+            "from THomeworkTask ht " +
+            "left join TClassroom c on c.id = ht.classId " +
+            "left join TStudent s on s.classId = c.id " +
+            "left join THomework h on h.createrId = s.studentId and h.homeworkTaskId = ht.id " +
+            "where ht.id = ?1 and h.id is not null")
+    int countSubmitNumberByHomeworkTaskId(Integer homeworkTaskId);
 }

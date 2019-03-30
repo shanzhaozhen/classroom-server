@@ -3,15 +3,15 @@ package com.shanzhaozhen.classroom.bean;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "t_sign_in")
-public class TSignIn extends BaseBean {
+@Table(name = "t_sign")
+public class TSign extends BaseBean {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private Integer signInTaskId;
+    private Integer signTaskId;
 
     @Column(nullable = false)
     private Integer createrId;
@@ -35,11 +35,11 @@ public class TSignIn extends BaseBean {
     @Transient
     private String nickName;
 
-    public TSignIn() {
+    public TSign() {
     }
 
-    public TSignIn(Integer signInTaskId, Integer createrId, Double longitude, Double latitude, String faceToken, String fullName, String number, String nickName) {
-        this.signInTaskId = signInTaskId;
+    public TSign(Integer signTaskId, Integer createrId, Double longitude, Double latitude, String faceToken, String fullName, String number, String nickName) {
+        this.signTaskId = signTaskId;
         this.createrId = createrId;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -49,16 +49,16 @@ public class TSignIn extends BaseBean {
         this.nickName = nickName;
     }
 
-    public TSignIn(TSignIn tSignIn, String fullName, String number, String nickName) {
-        if (tSignIn != null) {
-            this.id = tSignIn.getId();
-            this.signInTaskId = tSignIn.getSignInTaskId();
-            this.createrId = tSignIn.getCreaterId();
-            this.longitude = tSignIn.getLongitude();
-            this.latitude = tSignIn.getLatitude();
-            this.faceToken = tSignIn.getFaceToken();
-            super.setCreatedDate(tSignIn.getCreatedDate());
-            super.setLastModifiedDate(tSignIn.getLastModifiedDate());
+    public TSign(TSign tSign, String fullName, String number, String nickName) {
+        if (tSign != null) {
+            this.id = tSign.getId();
+            this.signTaskId = tSign.getSignTaskId();
+            this.createrId = tSign.getCreaterId();
+            this.longitude = tSign.getLongitude();
+            this.latitude = tSign.getLatitude();
+            this.faceToken = tSign.getFaceToken();
+            super.setCreatedDate(tSign.getCreatedDate());
+            super.setLastModifiedDate(tSign.getLastModifiedDate());
         }
         this.fullName = fullName;
         this.number = number;
@@ -73,12 +73,12 @@ public class TSignIn extends BaseBean {
         this.id = id;
     }
 
-    public Integer getSignInTaskId() {
-        return signInTaskId;
+    public Integer getSignTaskId() {
+        return signTaskId;
     }
 
-    public void setSignInTaskId(Integer signInTaskId) {
-        this.signInTaskId = signInTaskId;
+    public void setSignTaskId(Integer signTaskId) {
+        this.signTaskId = signTaskId;
     }
 
     public Integer getCreaterId() {

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
@@ -16,13 +17,13 @@ public class THomeworkController {
     @Autowired
     private THomeworkService tHomeworkService;
 
-    @GetMapping("/homeworks/{homeworkTaskId}")
-    public Page<THomework> getTSignInPage(@PathVariable("homeworkTaskId") Integer homeworkTaskId, String keyword, Pageable pageable) {
+    @GetMapping("/homework-task/{homeworkTaskId}/homework")
+    public Page<THomework> getTSignPage(@PathVariable("homeworkTaskId") Integer homeworkTaskId, String keyword, Pageable pageable) {
         Page<THomework> page = tHomeworkService.getTHomeworkPage(homeworkTaskId, keyword, pageable);
         return page;
     }
 
-    @PutMapping("/homework/giveScore/{homeworkId}")
+    @PutMapping("/homework/{homeworkId}/score")
     public Map<String, Object> giveHomeworkScore(@PathVariable("homeworkId") Integer homeworkId, Integer score) {
         return tHomeworkService.giveHomeworkScore(homeworkId, score);
     }
@@ -37,9 +38,14 @@ public class THomeworkController {
         return tHomeworkService.saveTHomework(tHomework);
     }
 
-    @GetMapping("/homework/taskid/{homeworkTaskId}")
-    public Map<String, Object> getSignInDetail(@PathVariable("homeworkTaskId") Integer homeworkTaskId) {
-        return tHomeworkService.getTHomeworkBySignInTaskId(homeworkTaskId);
+    @GetMapping("/homework-task/{homeworkTaskId}/homework/my")
+    public Map<String, Object> getSignDetail(@PathVariable("homeworkTaskId") Integer homeworkTaskId) {
+        return tHomeworkService.getTHomeworkByHomeworkTaskId(homeworkTaskId);
+    }
+
+    @GetMapping("/homework-task/{homeworkTaskId}/export")
+    public void exporHomeworkDataByHomeworkTaskId(@PathVariable("homeworkTaskId") Integer homeworkTaskId, HttpServletResponse httpServletResponse) {
+        tHomeworkService.exporHomeworkDataByHomeworkTaskId(homeworkTaskId, httpServletResponse);
     }
 
 }

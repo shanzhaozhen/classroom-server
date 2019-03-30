@@ -7,15 +7,18 @@ import com.shanzhaozhen.classroom.admin.service.THomeworkTaskService;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.THomework;
 import com.shanzhaozhen.classroom.bean.THomeworkTask;
+import com.shanzhaozhen.classroom.param.ExcelParam;
+import com.shanzhaozhen.classroom.utils.PoiUtils;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class THomeworkServiceImpl implements THomeworkService {
@@ -135,7 +138,7 @@ public class THomeworkServiceImpl implements THomeworkService {
         return map;
     }
 
-    public Map<String, Object> getTHomeworkBySignInTaskId(Integer homeworkTaskId) {
+    public Map<String, Object> getTHomeworkByHomeworkTaskId(Integer homeworkTaskId) {
 
         Map<String, Object> map = new HashMap<>();
 
@@ -159,6 +162,45 @@ public class THomeworkServiceImpl implements THomeworkService {
         map.put("msg", "已交作业");
         map.put("data", tHomework);
         return map;
+    }
+
+    @Override
+    public void exporHomeworkDataByHomeworkTaskId(Integer homeworkTaskId, HttpServletResponse httpServletResponse) {
+        THomeworkTask tHomeworkTask = tHomeworkTaskService.getTHomeworkTaskById(homeworkTaskId);
+
+        if (tHomeworkTask == null) {
+            return;
+        }
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        List<THomework> list = tHomeworkRepository.findTHomeworksByHomeworkTaskId(homeworkTaskId);
+        String[] rowName = new String[] {"序号", "学号", "姓名", "提交时间", "评分"};
+        List<String> rowNameList = Arrays.asList(rowName);
+        String footer = null;
+
+        List<List<Object>> dataList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            List<Object> item = new ArrayList<>();
+            THomework tHomework = list.get(i);
+            item.add("" + (i + 1));
+            item.add(tHomework.getNumber());
+            item.add(tHomework.getFullName());
+            if (tHomework.getCreatedDate() == null) {
+                item.add("(未提交)");
+            } else {
+                item.add(simpleDateFormat.format(tHomework.getCreatedDate()));
+            }
+            dataList.add(item);
+        }
+        if (list.size() > 0) {
+            Map<String, Object> result = tHomeworkTaskService.getSubmitRateByHomeworkTaskId(homeworkTaskId);
+            if ((boolean) result.get("success") == true) {
+                footer = "班级人数：" + result.get("studentNumber") + "，提交人数：" + result.get("submitNumber") +  "，提交率：" + result.get("submitRate");
+            }
+        }
+        Workbook workbook = PoiUtils.writeExcel(new ExcelParam(null, "“" + tHomeworkTask.getName() + "”出勤数据", rowNameList, dataList, footer));
+        PoiUtils.exportExcel(httpServletResponse, workbook);
     }
 
 }

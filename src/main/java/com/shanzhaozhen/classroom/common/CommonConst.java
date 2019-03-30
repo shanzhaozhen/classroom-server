@@ -34,7 +34,7 @@ public class CommonConst {
     }
 
 
-    public enum SignInType {
+    public enum SignType {
 
         NONE("无", 0),
         LOCATION("位置定位", 1),
@@ -44,7 +44,7 @@ public class CommonConst {
 
         private Integer value;
 
-        SignInType(String name, Integer value) {
+        SignType(String name, Integer value) {
             this.name = name;
             this.value = value;
         }

@@ -1,10 +1,10 @@
 package com.shanzhaozhen.classroom.admin.service.impl;
 
-import com.shanzhaozhen.classroom.admin.repository.TSignInTaskRepository;
+import com.shanzhaozhen.classroom.admin.repository.TSignTaskRepository;
 import com.shanzhaozhen.classroom.admin.service.SysUserService;
-import com.shanzhaozhen.classroom.admin.service.TSignInTaskService;
+import com.shanzhaozhen.classroom.admin.service.TSignTaskService;
 import com.shanzhaozhen.classroom.bean.SysUser;
-import com.shanzhaozhen.classroom.bean.TSignInTask;
+import com.shanzhaozhen.classroom.bean.TSignTask;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,34 +21,34 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class TSignInTaskServiceImpl implements TSignInTaskService {
+public class TSignTaskServiceImpl implements TSignTaskService {
 
     @Autowired
     private SysUserService sysUserService;
 
     @Autowired
-    private TSignInTaskRepository tSignInTaskRepository;
+    private TSignTaskRepository tSignTaskRepository;
 
     @Override
-    public Page<TSignInTask> getTSignInTaskPage(Integer classId, String keyword, Pageable pageable) {
+    public Page<TSignTask> getTSignTaskPage(Integer classId, String keyword, Pageable pageable) {
         keyword = "%" + keyword + "%";
-        Page<TSignInTask> page = null;
+        Page<TSignTask> page = null;
         String username = UserDetailsUtils.getUsername();
         SysUser sysUser = sysUserService.getSysUserByUsername(username);
         if (sysUser == null) {
             return null;
         }
         if (classId == null) {
-            page = tSignInTaskRepository.findTSignInTasksByCreaterIdAndKeyword(sysUser.getId(), keyword, keyword, pageable);
+            page = tSignTaskRepository.findTSignTasksByCreaterIdAndKeyword(sysUser.getId(), keyword, keyword, pageable);
         } else {
-            page = tSignInTaskRepository.findTSignInTasksByCreaterIdAndClassIdAndKeyword(sysUser.getId(), classId, keyword, keyword, pageable);
+            page = tSignTaskRepository.findTSignTasksByCreaterIdAndClassIdAndKeyword(sysUser.getId(), classId, keyword, keyword, pageable);
         }
         return page;
     }
 
     @Override
     @Transactional
-    public Map<String, Object> createTSignInTask(TSignInTask tSignInTask) {
+    public Map<String, Object> createTSignTask(TSignTask tSignTask) {
         Map<String, Object> map = new HashMap<>();
         String username = UserDetailsUtils.getUsername();
         SysUser sysUser = sysUserService.getSysUserByUsername(username);
@@ -57,8 +57,8 @@ public class TSignInTaskServiceImpl implements TSignInTaskService {
             map.put("msg", "创建失败，没有找到该操作对应的用户");
             return map;
         }
-        tSignInTask.setCreaterId(sysUser.getId());
-        tSignInTaskRepository.save(tSignInTask);
+        tSignTask.setCreaterId(sysUser.getId());
+        tSignTaskRepository.save(tSignTask);
         map.put("success", true);
         map.put("msg", "签到任务创建成功");
         return map;
@@ -66,59 +66,59 @@ public class TSignInTaskServiceImpl implements TSignInTaskService {
 
     @Override
     @Transactional
-    public Map<String, Object> updateTSignInTask(TSignInTask tSignInTask) {
+    public Map<String, Object> updateTSignTask(TSignTask tSignTask) {
         Map<String, Object> map = new HashMap<>();
-        TSignInTask temp = tSignInTaskRepository.findTSignInTaskById(tSignInTask.getId());
+        TSignTask temp = tSignTaskRepository.findTSignTaskById(tSignTask.getId());
         if (temp == null) {
             map.put("success", false);
             map.put("msg", "该签到任务不存在");
             return map;
         }
-        BeanUtils.copyProperties(temp, tSignInTask, "name", "outline", "classId",
-                "startDate", "endDate", "signInType", "address", "longitude", "latitude", "scope", "announce");
-        tSignInTaskRepository.save(tSignInTask);
+        BeanUtils.copyProperties(temp, tSignTask, "name", "outline", "classId",
+                "startDate", "endDate", "signType", "address", "longitude", "latitude", "scope", "announce");
+        tSignTaskRepository.save(tSignTask);
         map.put("success", true);
         return map;
     }
 
     @Override
     @Transactional
-    public Map<String, Object> deleteTSignInTask(Integer id) {
+    public Map<String, Object> deleteTSignTask(Integer id) {
         Map<String, Object> map = new HashMap<>();
-        TSignInTask temp = tSignInTaskRepository.findTSignInTaskById(id);
+        TSignTask temp = tSignTaskRepository.findTSignTaskById(id);
         if (temp == null) {
             map.put("success", false);
             map.put("msg", "该签到任务不存在");
             return map;
         }
-        tSignInTaskRepository.deleteById(id);
+        tSignTaskRepository.deleteById(id);
         map.put("success", true);
         map.put("msg", "删除成功");
         return map;
     }
 
     @Override
-    public List<TSignInTask> getSignInTaskListByClassId(Integer classId) {
-        return tSignInTaskRepository.findTSignInTasksByClassIdAndAnnounceIsTrue(classId);
+    public List<TSignTask> getSignTaskListByClassroomId(Integer classId) {
+        return tSignTaskRepository.findTSignTasksByClassIdAndAnnounceIsTrue(classId);
 
     }
 
     @Override
-    public TSignInTask getTSignInTaskById(Integer id) {
-        return tSignInTaskRepository.findTSignInTaskById(id);
+    public TSignTask getTSignTaskById(Integer id) {
+        return tSignTaskRepository.findTSignTaskById(id);
     }
 
     @Override
-    public Map<String, Object> getAttendanceRateBySignInTaskId(Integer signInTaskId) {
+    public Map<String, Object> getAttendanceRateBySignTaskId(Integer signTaskId) {
         Map<String, Object> map = new HashMap<>();
 
-        if (signInTaskId == null) {
+        if (signTaskId == null) {
             map.put("success", false);
             map.put("msg", "获取失败");
             return map;
         }
 
-        int studentNumber = tSignInTaskRepository.countStudentNumberBySignInTaskId(signInTaskId);
+        int studentNumber = tSignTaskRepository.countStudentNumberBySignTaskId(signTaskId);
 
         if (studentNumber == 0) {
             map.put("success", false);
@@ -126,7 +126,7 @@ public class TSignInTaskServiceImpl implements TSignInTaskService {
             return map;
         }
 
-        int attendanceNumber = tSignInTaskRepository.countAttendanceNumberBySignInTaskId(signInTaskId);
+        int attendanceNumber = tSignTaskRepository.countAttendanceNumberBySignTaskId(signTaskId);
 
         DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();
         //可以设置精确几位小数

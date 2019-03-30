@@ -4,6 +4,7 @@ import com.shanzhaozhen.classroom.bean.THomework;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 public interface THomeworkService {
@@ -16,5 +17,7 @@ public interface THomeworkService {
 
     Map<String, Object> getTHomework(Integer id);
 
-    Map<String, Object> getTHomeworkBySignInTaskId(Integer homeworkTaskId);
+    Map<String, Object> getTHomeworkByHomeworkTaskId(Integer homeworkTaskId);
+
+    void exporHomeworkDataByHomeworkTaskId(Integer homeworkTaskId, HttpServletResponse httpServletResponse);
 }

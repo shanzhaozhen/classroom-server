@@ -20,4 +20,6 @@ public interface THomeworkTaskService {
     List<THomeworkTask> getHomeworkTaskListByClassId(Integer classId);
 
     THomeworkTask getTHomeworkTaskById(Integer id);
+
+    Map<String, Object> getSubmitRateByHomeworkTaskId(Integer homeworkTaskId);
 }
