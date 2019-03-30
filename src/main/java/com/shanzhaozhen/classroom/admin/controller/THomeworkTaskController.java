@@ -48,7 +48,7 @@ public class THomeworkTaskController {
         return tHomeworkTaskService.getHomeworkTaskListByClassId(classId);
     }
 
-    @GetMapping("/homeworktask/submitrate/{homeworkTaskId}")
+    @GetMapping("/homework-task/{homeworkTaskId}/commit")
     public Map<String, Object> getSubmitRateByHomeworkTaskId(@PathVariable("homeworkTaskId") Integer homeworkTaskId) {
         return tHomeworkTaskService.getSubmitRateByHomeworkTaskId(homeworkTaskId);
     }

@@ -196,10 +196,10 @@ public class THomeworkServiceImpl implements THomeworkService {
         if (list.size() > 0) {
             Map<String, Object> result = tHomeworkTaskService.getSubmitRateByHomeworkTaskId(homeworkTaskId);
             if ((boolean) result.get("success") == true) {
-                footer = "班级人数：" + result.get("studentNumber") + "，提交人数：" + result.get("submitNumber") +  "，提交率：" + result.get("submitRate");
+                footer = "班级人数：" + result.get("studentNumber") + "，提交人数：" + result.get("commitNumber") +  "，提交率：" + result.get("commitRate");
             }
         }
-        Workbook workbook = PoiUtils.writeExcel(new ExcelParam(null, "“" + tHomeworkTask.getName() + "”出勤数据", rowNameList, dataList, footer));
+        Workbook workbook = PoiUtils.writeExcel(new ExcelParam(null, tHomeworkTask.getName() + "-出勤数据", rowNameList, dataList, footer));
         PoiUtils.exportExcel(httpServletResponse, workbook);
     }
 

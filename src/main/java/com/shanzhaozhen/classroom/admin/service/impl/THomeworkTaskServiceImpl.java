@@ -134,8 +134,8 @@ public class THomeworkTaskServiceImpl implements THomeworkTaskService {
 
         map.put("success", true);
         map.put("msg", "获取成功");
-        map.put("submitRate", submitRate);
-        map.put("submitNumber", submitNumber);
+        map.put("commitRate", submitRate);
+        map.put("commitNumber", submitNumber);
         map.put("studentNumber", studentNumber);
         return map;
     }
