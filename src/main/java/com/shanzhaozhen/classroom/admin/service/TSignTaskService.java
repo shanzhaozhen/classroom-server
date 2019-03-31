@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface TSignTaskService {
 
-    Page<TSignTask> getTSignTaskPage(Integer classId, String keyword, Pageable pageable);
+    Page<TSignTask> getTSignTaskPage(Integer classroomId, String keyword, Pageable pageable);
 
     Map<String, Object> createTSignTask(TSignTask tSignTask);
 
@@ -17,9 +17,11 @@ public interface TSignTaskService {
 
     Map<String, Object> deleteTSignTask(Integer id);
 
-    List<TSignTask> getSignTaskListByClassroomId(Integer classId);
+    List<TSignTask> getSignTaskListByClassroomId(Integer classroomId);
 
     TSignTask getTSignTaskById(Integer id);
 
     Map<String, Object> getAttendanceRateBySignTaskId(Integer signTaskId);
+
+    int countTSignTasksByClassroomId(Integer classroomId);
 }

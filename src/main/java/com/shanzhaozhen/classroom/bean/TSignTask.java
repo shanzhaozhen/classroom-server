@@ -16,7 +16,7 @@ public class TSignTask extends BaseBean {
 
     //班级id
     @Column(nullable = false)
-    private Integer classId;
+    private Integer classroomId;
 
     //创建人id
     @Column(nullable = false)
@@ -65,12 +65,12 @@ public class TSignTask extends BaseBean {
         this.id = id;
     }
 
-    public Integer getClassId() {
-        return classId;
+    public Integer getClassroomId() {
+        return classroomId;
     }
 
-    public void setClassId(Integer classId) {
-        this.classId = classId;
+    public void setClassroomId(Integer classroomId) {
+        this.classroomId = classroomId;
     }
 
     public Integer getCreaterId() {

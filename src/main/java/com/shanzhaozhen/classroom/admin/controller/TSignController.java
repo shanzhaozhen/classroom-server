@@ -33,7 +33,7 @@ public class TSignController {
         return tSignService.getTSignBySignTaskId(signTaskId);
     }
 
-    @GetMapping("/sign-task/{signTaskId}/task/export")
+    @GetMapping("/sign-task/{signTaskId}/sign/export")
     public void exportSignDataBySignTaskId(@PathVariable("signTaskId") Integer signTaskId, HttpServletResponse httpServletResponse) {
         tSignService.exportSignDataBySignTaskId(signTaskId, httpServletResponse);
     }

@@ -165,7 +165,7 @@ public class THomeworkServiceImpl implements THomeworkService {
     }
 
     @Override
-    public void exporHomeworkDataByHomeworkTaskId(Integer homeworkTaskId, HttpServletResponse httpServletResponse) {
+    public void exportHomeworkDataByHomeworkTaskId(Integer homeworkTaskId, HttpServletResponse httpServletResponse) {
         THomeworkTask tHomeworkTask = tHomeworkTaskService.getTHomeworkTaskById(homeworkTaskId);
 
         if (tHomeworkTask == null) {
@@ -191,6 +191,11 @@ public class THomeworkServiceImpl implements THomeworkService {
             } else {
                 item.add(simpleDateFormat.format(tHomework.getCreatedDate()));
             }
+            if (tHomework.getScore() == null) {
+                item.add("(未评分)");
+            } else {
+                item.add(tHomework.getScore());
+            }
             dataList.add(item);
         }
         if (list.size() > 0) {
@@ -201,6 +206,31 @@ public class THomeworkServiceImpl implements THomeworkService {
         }
         Workbook workbook = PoiUtils.writeExcel(new ExcelParam(null, tHomeworkTask.getName() + "-出勤数据", rowNameList, dataList, footer));
         PoiUtils.exportExcel(httpServletResponse, workbook);
+    }
+
+    @Override
+    public int countTHomeworksByStudentIdAndClassroomId(Integer studentId, Integer classroomId) {
+        return tHomeworkRepository.countTHomeworksByStudentIdAndClassroomId(studentId, classroomId);
+    }
+
+    @Override
+    public int getSumScoreByStudentIdAndClassroomId(Integer studentId, Integer classroomId) {
+        return tHomeworkRepository.getSumScoreByStudentIdAndClassroomId(studentId, classroomId);
+    }
+
+    @Override
+    public float getAvgScoreByStudentIdAndClassroomId(Integer studentId, Integer classroomId) {
+        return tHomeworkRepository.getAvgScoreByStudentIdAndClassroomId(studentId, classroomId);
+    }
+
+    @Override
+    public Page<THomework> getHomeworkNoScorePage(Pageable pageable) {
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            return null;
+        }
+        return tHomeworkRepository.getHomeworkNoScorePage(sysUser.getId(), pageable);
     }
 
 }

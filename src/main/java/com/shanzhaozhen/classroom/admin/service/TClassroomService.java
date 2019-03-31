@@ -25,5 +25,4 @@ public interface TClassroomService {
     List<TClassroom> getMyClassRoom();
 
     TClassroom getClassroomById(Integer id);
-
 }

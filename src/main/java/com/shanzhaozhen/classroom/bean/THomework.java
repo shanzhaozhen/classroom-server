@@ -39,10 +39,13 @@ public class THomework extends BaseBean {
     @Transient
     private TFileInfo tFileInfo;
 
+    @Transient
+    private String homeworkTaskName;
+
     public THomework() {
     }
 
-    public THomework(Integer homeworkTaskId, Integer createrId, String content, Integer fileInfoId, Integer score, String fullName, String number, String nickName, TFileInfo tFileInfo) {
+    public THomework(Integer homeworkTaskId, Integer createrId, String content, Integer fileInfoId, Integer score, String fullName, String number, String nickName, TFileInfo tFileInfo, String homeworkTaskName) {
         this.homeworkTaskId = homeworkTaskId;
         this.createrId = createrId;
         this.content = content;
@@ -52,6 +55,7 @@ public class THomework extends BaseBean {
         this.number = number;
         this.nickName = nickName;
         this.tFileInfo = tFileInfo;
+        this.homeworkTaskName = homeworkTaskName;
     }
 
     public THomework(THomework tHomework, String fullName, String number, String nickName) {
@@ -83,6 +87,21 @@ public class THomework extends BaseBean {
         this.number = number;
         this.nickName = nickName;
         this.tFileInfo = tFileInfo;
+    }
+
+    public THomework(THomework tHomework, String fullName, String number, String nickName, String homeworkTaskName) {
+        this.id = tHomework.getId();
+        this.homeworkTaskId = tHomework.getHomeworkTaskId();
+        this.createrId = tHomework.getCreaterId();
+        this.content = tHomework.getContent();
+        this.fileInfoId = tHomework.getFileInfoId();
+        this.score = tHomework.getScore();
+        super.setCreatedDate(tHomework.getCreatedDate());
+        super.setLastModifiedDate(tHomework.getLastModifiedDate());
+        this.fullName = fullName;
+        this.number = number;
+        this.nickName = nickName;
+        this.homeworkTaskName = homeworkTaskName;
     }
 
     public Integer getId() {
@@ -163,5 +182,13 @@ public class THomework extends BaseBean {
 
     public void settFileInfo(TFileInfo tFileInfo) {
         this.tFileInfo = tFileInfo;
+    }
+
+    public String getHomeworkTaskName() {
+        return homeworkTaskName;
+    }
+
+    public void setHomeworkTaskName(String homeworkTaskName) {
+        this.homeworkTaskName = homeworkTaskName;
     }
 }

@@ -19,5 +19,13 @@ public interface THomeworkService {
 
     Map<String, Object> getTHomeworkByHomeworkTaskId(Integer homeworkTaskId);
 
-    void exporHomeworkDataByHomeworkTaskId(Integer homeworkTaskId, HttpServletResponse httpServletResponse);
+    void exportHomeworkDataByHomeworkTaskId(Integer homeworkTaskId, HttpServletResponse httpServletResponse);
+
+    int countTHomeworksByStudentIdAndClassroomId(Integer studentId, Integer classroomId);
+
+    int getSumScoreByStudentIdAndClassroomId(Integer studentId, Integer classroomId);
+
+    float getAvgScoreByStudentIdAndClassroomId(Integer studentId, Integer classroomId);
+
+    Page<THomework> getHomeworkNoScorePage(Pageable pageable);
 }

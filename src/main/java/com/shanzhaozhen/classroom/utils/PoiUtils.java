@@ -42,7 +42,7 @@ public class PoiUtils {
             Row titleRow = sheet.createRow(index);
             Cell cell = titleRow.createCell(0, CellType.STRING);
             cell.setCellValue(title);
-            sheet.addMergedRegion(new CellRangeAddress(0,0,0, rowName.size()));
+            sheet.addMergedRegion(new CellRangeAddress(0,0,0, rowName.size() - 1));
             index++;
         }
 
@@ -96,7 +96,7 @@ public class PoiUtils {
             Row titleRow = sheet.createRow(dataList.size() + index);
             Cell cell = titleRow.createCell(0, CellType.STRING);
             cell.setCellValue(footer);
-            sheet.addMergedRegion(new CellRangeAddress(dataList.size() + index,dataList.size() + index,0, rowName.size()));
+            sheet.addMergedRegion(new CellRangeAddress(dataList.size() + index,dataList.size() + index,0, rowName.size() - 1));
         }
         return workbook;
     }

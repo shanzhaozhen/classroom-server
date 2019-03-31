@@ -205,4 +205,9 @@ public class TSignServiceImpl implements TSignService {
         PoiUtils.exportExcel(httpServletResponse, workbook);
     }
 
+    @Override
+    public int countTSignsByStudentIdAndClassroomId(Integer studentId, Integer classroomId) {
+        return tSignRepository.countTSignsByStudentIdAndClassroomId(studentId, classroomId);
+    }
+
 }

@@ -78,13 +78,13 @@ public class JsonMessage {
 
 
     //    public Map<String, Object> ResultOnlyMessage(String message) {
-//        Map<String, Object> result = new HashMap<String, Object>();
+//        Map<String, Object> result = new HashMap<>();
 //        result.put("message", message);
 //        return result;
 //    }
 //
 //    public Map<String, Object> ResultTitleAndMessage(String title, String message) {
-//        Map<String, Object> result = new HashMap<String, Object>();
+//        Map<String, Object> result = new HashMap<>();
 //        result.put("title", title);
 //        result.put("message", message);
 //        return result;

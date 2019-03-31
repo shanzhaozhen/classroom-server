@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
@@ -16,25 +17,26 @@ public class TStudentController {
     @Autowired
     private TStudentService tStudentService;
 
-    @GetMapping("/students/{classId}")
-    public Page<TStudent> getTStudentPage(@PathVariable("classId") Integer classId, String keyword, Pageable pageable) {
-        Page<TStudent> page = tStudentService.getTStudentPage(classId, keyword, pageable);
+    @GetMapping("/classroom/{classroomId}/student")
+    public Page<TStudent> getTStudentPage(@PathVariable("classroomId") Integer classroomId, String keyword, Pageable pageable) {
+        Page<TStudent> page = tStudentService.getTStudentPage(classroomId, keyword, pageable);
         return page;
     }
 
-    @PostMapping("/student/join/{id}")
-    public Map<String, Object> joinClass(@PathVariable("id") Integer classId) {
-        return tStudentService.joinClass(classId);
+    @PostMapping("/student")
+    public Map<String, Object> addTStudent(@RequestBody TStudent tStudent) {
+        return tStudentService.addTStudent(tStudent);
     }
 
     @DeleteMapping("/student/{id}")
-    public Map<String, Object> moveOutOfClass(@PathVariable("id") Integer id) {
-        return tStudentService.moveOutOfClass(id);
+    public Map<String, Object> delTStudent(@PathVariable("id") Integer id) {
+        return tStudentService.delTStudent(id);
     }
 
-//    @DeleteMapping("/student/{classId}")
-//    public Map<String, Object> leaveClass(@PathVariable("classId") Integer classId, Integer studentId) {
-//        return tStudentService.leaveClass(classId, studentId);
-//    }
+    @GetMapping("/classroom/{classroomId}/student/export")
+    public void exportStudentDataByClassroomId(@PathVariable("classroomId") Integer classroomId, HttpServletResponse httpServletResponse) {
+        tStudentService.exportStudentDataByClassroomId(classroomId, httpServletResponse);
+    }
+
 
 }

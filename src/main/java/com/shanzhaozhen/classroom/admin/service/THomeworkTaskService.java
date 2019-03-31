@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface THomeworkTaskService {
 
-    Page<THomeworkTask> getTHomeworkTaskPage(Integer classId, String keyword, Pageable pageable);
+    Page<THomeworkTask> getTHomeworkTaskPage(Integer classroomId, String keyword, Pageable pageable);
 
     Map<String, Object> createTHomeworkTask(THomeworkTask tHomeworkTask);
 
@@ -17,9 +17,11 @@ public interface THomeworkTaskService {
 
     Map<String, Object> deleteTHomeworkTask(Integer id);
 
-    List<THomeworkTask> getHomeworkTaskListByClassId(Integer classId);
+    List<THomeworkTask> getHomeworkTaskListByClassroomId(Integer classroomId);
 
     THomeworkTask getTHomeworkTaskById(Integer id);
 
     Map<String, Object> getSubmitRateByHomeworkTaskId(Integer homeworkTaskId);
+
+    int countTHomeworkTasksByClassroomId(Integer classroomId);
 }

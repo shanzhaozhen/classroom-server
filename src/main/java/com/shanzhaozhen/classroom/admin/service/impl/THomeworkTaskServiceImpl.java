@@ -5,6 +5,7 @@ import com.shanzhaozhen.classroom.admin.service.SysUserService;
 import com.shanzhaozhen.classroom.admin.service.THomeworkTaskService;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.THomeworkTask;
+import com.shanzhaozhen.classroom.utils.StudentUtils;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +31,18 @@ public class THomeworkTaskServiceImpl implements THomeworkTaskService {
 
 
     @Override
-    public Page<THomeworkTask> getTHomeworkTaskPage(Integer classId, String keyword, Pageable pageable) {
+    public Page<THomeworkTask> getTHomeworkTaskPage(Integer classroomId, String keyword, Pageable pageable) {
         keyword = "%" + keyword + "%";
-        Page<THomeworkTask> page = null;
+        Page<THomeworkTask> page;
         String username = UserDetailsUtils.getUsername();
         SysUser sysUser = sysUserService.getSysUserByUsername(username);
         if (sysUser == null) {
             return null;
         }
-        if (classId == null) {
+        if (classroomId == null) {
             page = tHomeworkTaskRepository.findTHomeworkTasksByCreaterIdAndKeyword(sysUser.getId(), keyword, keyword, pageable);
         } else {
-            page = tHomeworkTaskRepository.findTHomeworkTasksByCreaterIdAndClassIdAndKeyword(sysUser.getId(), classId, keyword, keyword, pageable);
+            page = tHomeworkTaskRepository.findTHomeworkTasksByCreaterIdAndClassroomIdAndKeyword(sysUser.getId(), classroomId, keyword, keyword, pageable);
         }
         return page;
     }
@@ -72,7 +73,7 @@ public class THomeworkTaskServiceImpl implements THomeworkTaskService {
             map.put("msg", "该作业任务不存在");
             return map;
         }
-        BeanUtils.copyProperties(temp, tHomeworkTask, "name", "outline", "classId",
+        BeanUtils.copyProperties(temp, tHomeworkTask, "name", "outline", "classroomId",
                 "startDate", "endDate", "announce");
         tHomeworkTaskRepository.save(tHomeworkTask);
         map.put("success", true);
@@ -95,8 +96,8 @@ public class THomeworkTaskServiceImpl implements THomeworkTaskService {
     }
 
     @Override
-    public List<THomeworkTask> getHomeworkTaskListByClassId(Integer classId) {
-        return tHomeworkTaskRepository.findTHomeworkTasksByClassIdAndAnnounceIsTrue(classId);
+    public List<THomeworkTask> getHomeworkTaskListByClassroomId(Integer classroomId) {
+        return tHomeworkTaskRepository.findTHomeworkTasksByClassroomIdAndAnnounceIsTrue(classroomId);
     }
 
     @Override
@@ -124,13 +125,7 @@ public class THomeworkTaskServiceImpl implements THomeworkTaskService {
 
         int submitNumber = tHomeworkTaskRepository.countSubmitNumberByHomeworkTaskId(homeworkTaskId);
 
-        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();
-        //可以设置精确几位小数
-        decimalFormat.setMaximumFractionDigits(2);
-        //模式 例如四舍五入
-        decimalFormat.setRoundingMode(RoundingMode.HALF_UP);
-        double accuracy_num = submitNumber / studentNumber * 100;
-        String submitRate = decimalFormat.format(accuracy_num) + "%";
+        String submitRate = StudentUtils.calPercent(submitNumber, studentNumber);
 
         map.put("success", true);
         map.put("msg", "获取成功");
@@ -138,6 +133,11 @@ public class THomeworkTaskServiceImpl implements THomeworkTaskService {
         map.put("commitNumber", submitNumber);
         map.put("studentNumber", studentNumber);
         return map;
+    }
+
+    @Override
+    public int countTHomeworkTasksByClassroomId(Integer classroomId) {
+        return tHomeworkTaskRepository.countTHomeworkTasksByClassroomId(classroomId);
     }
 
 }

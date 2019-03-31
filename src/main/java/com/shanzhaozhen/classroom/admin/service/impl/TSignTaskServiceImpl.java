@@ -5,6 +5,7 @@ import com.shanzhaozhen.classroom.admin.service.SysUserService;
 import com.shanzhaozhen.classroom.admin.service.TSignTaskService;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.TSignTask;
+import com.shanzhaozhen.classroom.utils.StudentUtils;
 import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +31,18 @@ public class TSignTaskServiceImpl implements TSignTaskService {
     private TSignTaskRepository tSignTaskRepository;
 
     @Override
-    public Page<TSignTask> getTSignTaskPage(Integer classId, String keyword, Pageable pageable) {
+    public Page<TSignTask> getTSignTaskPage(Integer classroomId, String keyword, Pageable pageable) {
         keyword = "%" + keyword + "%";
-        Page<TSignTask> page = null;
+        Page<TSignTask> page;
         String username = UserDetailsUtils.getUsername();
         SysUser sysUser = sysUserService.getSysUserByUsername(username);
         if (sysUser == null) {
             return null;
         }
-        if (classId == null) {
+        if (classroomId == null) {
             page = tSignTaskRepository.findTSignTasksByCreaterIdAndKeyword(sysUser.getId(), keyword, keyword, pageable);
         } else {
-            page = tSignTaskRepository.findTSignTasksByCreaterIdAndClassIdAndKeyword(sysUser.getId(), classId, keyword, keyword, pageable);
+            page = tSignTaskRepository.findTSignTasksByCreaterIdAndClassroomIdAndKeyword(sysUser.getId(), classroomId, keyword, keyword, pageable);
         }
         return page;
     }
@@ -74,7 +75,7 @@ public class TSignTaskServiceImpl implements TSignTaskService {
             map.put("msg", "该签到任务不存在");
             return map;
         }
-        BeanUtils.copyProperties(temp, tSignTask, "name", "outline", "classId",
+        BeanUtils.copyProperties(temp, tSignTask, "name", "outline", "classroomId",
                 "startDate", "endDate", "signType", "address", "longitude", "latitude", "scope", "announce");
         tSignTaskRepository.save(tSignTask);
         map.put("success", true);
@@ -98,8 +99,8 @@ public class TSignTaskServiceImpl implements TSignTaskService {
     }
 
     @Override
-    public List<TSignTask> getSignTaskListByClassroomId(Integer classId) {
-        return tSignTaskRepository.findTSignTasksByClassIdAndAnnounceIsTrue(classId);
+    public List<TSignTask> getSignTaskListByClassroomId(Integer classroomId) {
+        return tSignTaskRepository.findTSignTasksByClassroomIdAndAnnounceIsTrue(classroomId);
 
     }
 
@@ -128,13 +129,7 @@ public class TSignTaskServiceImpl implements TSignTaskService {
 
         int attendanceNumber = tSignTaskRepository.countAttendanceNumberBySignTaskId(signTaskId);
 
-        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance();
-        //可以设置精确几位小数
-        decimalFormat.setMaximumFractionDigits(2);
-        //模式 例如四舍五入
-        decimalFormat.setRoundingMode(RoundingMode.HALF_UP);
-        double accuracy_num = attendanceNumber / studentNumber * 100;
-        String attendanceRate = decimalFormat.format(accuracy_num) + "%";
+        String attendanceRate = StudentUtils.calPercent(attendanceNumber, studentNumber);
 
         map.put("success", true);
         map.put("msg", "获取成功");
@@ -142,5 +137,10 @@ public class TSignTaskServiceImpl implements TSignTaskService {
         map.put("attendanceNumber", attendanceNumber);
         map.put("studentNumber", studentNumber);
         return map;
+    }
+
+    @Override
+    public int countTSignTasksByClassroomId(Integer classroomId) {
+        return tSignTaskRepository.countTSignTasksByClassroomId(classroomId);
     }
 }

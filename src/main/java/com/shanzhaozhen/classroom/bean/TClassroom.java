@@ -17,15 +17,9 @@ public class TClassroom extends BaseBean {
     //班级概述
     private String outline;
 
-    //班级类型
-    private Integer classType;
-
-    //老师的id/创建人id
+    //创建人id
     @Column(nullable = false)
-    private Integer headmasterId;
-
-    //班长的id
-    private Integer monitorId;
+    private Integer createrId;
 
     //发布状态
     private boolean announce = false;
@@ -36,56 +30,57 @@ public class TClassroom extends BaseBean {
 
     //创建人信息
     @Transient
-    private SysUserInfo headmasterInfo;
+    private SysUserInfo createrInfo;
+
+    //加入状态
+    @Transient
+    private boolean joinState;
 
     public TClassroom() {
     }
 
-    public TClassroom(String name, String outline, Integer classType, Integer headmasterId, Integer monitorId, boolean announce, SysUserInfo headmasterInfo, Long studentNumber) {
+    public TClassroom(String name, String outline, Integer createrId, boolean announce, Long studentNumber, SysUserInfo createrInfo, boolean joinState) {
         this.name = name;
         this.outline = outline;
-        this.classType = classType;
-        this.headmasterId = headmasterId;
-        this.monitorId = monitorId;
+        this.createrId = createrId;
         this.announce = announce;
-        this.headmasterInfo = headmasterInfo;
         this.studentNumber = studentNumber;
+        this.createrInfo = createrInfo;
+        this.joinState = joinState;
     }
 
-//    public TClassroom(TClassroom tClassroom, String headmasterName, Long studentNumber) {
-//        this.id = tClassroom.getId();
-//        this.name = tClassroom.getName();
-//        this.outline = tClassroom.getOutline();
-//        this.classType = tClassroom.getClassType();
-//        this.headmasterId = tClassroom.getHeadmasterId();
-//        this.monitorId = tClassroom.getMonitorId();
-//        this.announce = tClassroom.isAnnounce();
-//        super.setCreatedDate(tClassroom.getCreatedDate());
-//        super.setLastModifiedDate(tClassroom.getLastModifiedDate());
-//        this.studentNumber = studentNumber;
-//        this.headmasterName = headmasterName;
-//    }
-
-    public TClassroom(TClassroom tClassroom, SysUserInfo headmasterInfo) {
+    public TClassroom(TClassroom tClassroom, SysUserInfo createrInfo) {
         this.id = tClassroom.getId();
         this.name = tClassroom.getName();
         this.outline = tClassroom.getOutline();
-        this.classType = tClassroom.getClassType();
-        this.headmasterId = tClassroom.getHeadmasterId();
-        this.monitorId = tClassroom.getMonitorId();
+        this.createrId = tClassroom.getCreaterId();
         this.announce = tClassroom.isAnnounce();
         super.setCreatedDate(tClassroom.getCreatedDate());
         super.setLastModifiedDate(tClassroom.getLastModifiedDate());
-        this.headmasterInfo = headmasterInfo;
+        this.createrInfo = createrInfo;
+    }
+
+    public TClassroom(TClassroom tClassroom, SysUserInfo createrInfo, Integer studentId) {
+        this.id = tClassroom.getId();
+        this.name = tClassroom.getName();
+        this.outline = tClassroom.getOutline();
+        this.createrId = tClassroom.getCreaterId();
+        this.announce = tClassroom.isAnnounce();
+        super.setCreatedDate(tClassroom.getCreatedDate());
+        super.setLastModifiedDate(tClassroom.getLastModifiedDate());
+        this.createrInfo = createrInfo;
+        if (studentId != null) {
+            this.joinState = true;
+        } else {
+            this.joinState = false;
+        }
     }
 
     public TClassroom(TClassroom tClassroom, Long studentNumber) {
         this.id = tClassroom.getId();
         this.name = tClassroom.getName();
         this.outline = tClassroom.getOutline();
-        this.classType = tClassroom.getClassType();
-        this.headmasterId = tClassroom.getHeadmasterId();
-        this.monitorId = tClassroom.getMonitorId();
+        this.createrId = tClassroom.getCreaterId();
         this.announce = tClassroom.isAnnounce();
         super.setCreatedDate(tClassroom.getCreatedDate());
         super.setLastModifiedDate(tClassroom.getLastModifiedDate());
@@ -116,28 +111,12 @@ public class TClassroom extends BaseBean {
         this.outline = outline;
     }
 
-    public Integer getClassType() {
-        return classType;
+    public Integer getCreaterId() {
+        return createrId;
     }
 
-    public void setClassType(Integer classType) {
-        this.classType = classType;
-    }
-
-    public Integer getHeadmasterId() {
-        return headmasterId;
-    }
-
-    public void setHeadmasterId(Integer headmasterId) {
-        this.headmasterId = headmasterId;
-    }
-
-    public Integer getMonitorId() {
-        return monitorId;
-    }
-
-    public void setMonitorId(Integer monitorId) {
-        this.monitorId = monitorId;
+    public void setCreaterId(Integer createrId) {
+        this.createrId = createrId;
     }
 
     public boolean isAnnounce() {
@@ -156,11 +135,19 @@ public class TClassroom extends BaseBean {
         this.studentNumber = studentNumber;
     }
 
-    public SysUserInfo getHeadmasterInfo() {
-        return headmasterInfo;
+    public SysUserInfo getCreaterInfo() {
+        return createrInfo;
     }
 
-    public void setHeadmasterInfo(SysUserInfo headmasterInfo) {
-        this.headmasterInfo = headmasterInfo;
+    public void setCreaterInfo(SysUserInfo createrInfo) {
+        this.createrInfo = createrInfo;
+    }
+
+    public boolean isJoinState() {
+        return joinState;
+    }
+
+    public void setJoinState(boolean joinState) {
+        this.joinState = joinState;
     }
 }

@@ -25,6 +25,12 @@ public class TClassroomController {
         return page;
     }
 
+//    @GetMapping("/my/classroom")
+//    public Page<TClassroom> getMyTClassroomPage(String keyword, Pageable pageable) {
+//        Page<TClassroom> page = tClassroomService.getMyTClassroomPage(keyword, pageable);
+//        return page;
+//    }
+
     @PostMapping("/classroom")
     public Map<String, Object> createTClassroom(@RequestBody TClassroom tClassroom) {
         return tClassroomService.createTClassroom(tClassroom);
@@ -58,7 +64,7 @@ public class TClassroomController {
         return list;
     }
 
-    @GetMapping("/classroom/info/{id}")
+    @GetMapping("/classroom/{id}")
     public TClassroom getTClassroomInfo(@PathVariable("id") Integer id) {
         TClassroom tClassroom = tClassroomService.getClassroomById(id);
         return tClassroom;

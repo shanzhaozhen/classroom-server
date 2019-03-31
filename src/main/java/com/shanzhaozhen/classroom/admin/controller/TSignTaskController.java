@@ -18,8 +18,8 @@ public class TSignTaskController {
     private TSignTaskService tSignTaskService;
 
     @GetMapping("/sign-task")
-    public Page<TSignTask> getTSignTaskPage(Integer classId, String keyword, Pageable pageable) {
-        Page<TSignTask> page = tSignTaskService.getTSignTaskPage(classId, keyword, pageable);
+    public Page<TSignTask> getTSignTaskPage(Integer classroomId, String keyword, Pageable pageable) {
+        Page<TSignTask> page = tSignTaskService.getTSignTaskPage(classroomId, keyword, pageable);
         return page;
     }
 
@@ -43,8 +43,8 @@ public class TSignTaskController {
         return tSignTaskService.getTSignTaskById(id);
     }
 
-    @GetMapping("/sign-task/classroom/{classroomId}")
-    public List<TSignTask> getSignTaskListByClassId(@PathVariable("id") Integer classroomId) {
+    @GetMapping("/classroom/{classroomId}/sign-task")
+    public List<TSignTask> getSignTaskListByClassroomId(@PathVariable("classroomId") Integer classroomId) {
         return tSignTaskService.getSignTaskListByClassroomId(classroomId);
     }
 

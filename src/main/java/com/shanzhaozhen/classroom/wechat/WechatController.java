@@ -77,7 +77,7 @@ public class WechatController {
             sysUser.setSysUserInfo(sysUserInfo);
             sysUserService.saveSysUser(sysUser);
         } else {
-            BeanUtils.copyProperties(sysUserInfo, tempUserInfo, "id", "fullName", "birthday", "email",
+            BeanUtils.copyProperties(sysUserInfo, tempUserInfo, "id", "number", "fullName", "birthday", "email",
                     "phoneNumber", "address", "introduction", "createdDate", "lastModifiedDate");
             sysUser.setSysUserInfo(tempUserInfo);
             sysUserService.saveSysUser(sysUser);

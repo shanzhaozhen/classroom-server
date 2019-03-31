@@ -20,20 +20,20 @@ public class MessageUtils {
     }
 
     public static Map<String, Object> resultSimpleMessage(String message) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("msg", message);
         return map;
     }
 
     public static Map<String, Object> resultSuccessMessage(String message) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("success", true);
         map.put("msg", message);
         return map;
     }
 
     public static Map<String, Object> resultSuccessMessage(String title, String message) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("title", title);
         map.put("success", true);
         map.put("msg", message);
@@ -41,7 +41,7 @@ public class MessageUtils {
     }
 
     public static Map<String, Object> resultSuccessMessage(String title, String message, Object object) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("title", title);
         map.put("success", true);
         map.put("msg", message);
@@ -50,14 +50,14 @@ public class MessageUtils {
     }
 
     public static Map<String, Object> resultFailureMessage(String message) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("success", false);
         map.put("msg", message);
         return map;
     }
 
     public static Map<String, Object> resultFailureMessage(String title, String message) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("title", title);
         map.put("success", false);
         map.put("msg", message);
@@ -65,7 +65,7 @@ public class MessageUtils {
     }
 
     public static Map<String, Object> resultFailureMessage(String title, String message, Object object) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("title", title);
         map.put("success", false);
         map.put("msg", message);

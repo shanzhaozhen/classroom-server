@@ -32,10 +32,17 @@ public class TClassroomServiceImpl implements TClassroomService {
     @Autowired
     private TClassroomRepository tClassroomRepository;
 
+
     @Override
     public Page<TClassroom> getTClassroomPage(String keyword, Pageable pageable) {
+
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            return null;
+        }
         keyword = "%" + keyword + "%";
-        return tClassroomRepository.findPageTClassroomsByUserIdAndKeyword(1, keyword, keyword, pageable);
+        return tClassroomRepository.findPageTClassroomsByCreaterIdAndKeyword(sysUser.getId(), keyword, keyword, pageable);
     }
 
     @Override
@@ -49,7 +56,7 @@ public class TClassroomServiceImpl implements TClassroomService {
             map.put("msg", "创建失败，没有找到该操作对应的用户");
             return map;
         }
-        tClassroom.setHeadmasterId(sysUser.getId());
+        tClassroom.setCreaterId(sysUser.getId());
         tClassroomRepository.save(tClassroom);
         map.put("success", true);
         map.put("msg", "创建成功");
@@ -83,7 +90,7 @@ public class TClassroomServiceImpl implements TClassroomService {
             return map;
         }
         tClassroomRepository.deleteById(id);
-        tStudentService.removeAllStudentByClassId(id);
+        tStudentService.removeAllStudentByClassroomId(id);
         map.put("success", true);
         map.put("msg", "删除成功");
         return map;
@@ -96,14 +103,20 @@ public class TClassroomServiceImpl implements TClassroomService {
         if (sysUser == null) {
             return null;
         }
-        List<KeyValueParam> list = tClassroomRepository.findSimpleTClassroomsByHeadmasterId(sysUser.getId());
+        List<KeyValueParam> list = tClassroomRepository.findSimpleTClassroomsByCreaterId(sysUser.getId());
         return list;
     }
 
     @Override
     public List<TClassroom> searchClassRoom(String keyword) {
         keyword = "%" + keyword + "%";
-        return tClassroomRepository.findTClassroomsByKeyword(keyword, keyword);
+
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            return tClassroomRepository.findTClassroomsByKeyword(keyword, keyword);
+        }
+        return tClassroomRepository.findTClassroomsAndJoinStateByKeyword(sysUser.getId(), keyword, keyword);
     }
 
     @Override
@@ -113,7 +126,7 @@ public class TClassroomServiceImpl implements TClassroomService {
         if (sysUser == null) {
             return null;
         }
-        List<TClassroom> list = tClassroomRepository.findTClassroomsByHeadmasterIdAndStudentId(sysUser.getId(), sysUser.getId());
+        List<TClassroom> list = tClassroomRepository.findTClassroomsByStudentId(sysUser.getId());
         return list;
     }
 

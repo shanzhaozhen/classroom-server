@@ -42,7 +42,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         if (StringUtils.isEmpty(jwtToken)) {
             map.put("success", false);
-            map.put("message", "识别不到当前账号的登陆信息，请重新登陆");
+            map.put("msg", "识别不到当前账号的登陆信息，请重新登陆");
             return map;
         }
         String username = myJwtTokenProvider.getUsername(jwtToken);
@@ -51,7 +51,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         if (sysUser == null) {
             map.put("success", false);
-            map.put("message", "没有找到当前的用户信息");
+            map.put("msg", "没有找到当前的用户信息");
             return map;
         }
 
@@ -125,7 +125,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         if (sysUser == null) {
             map.put("success", false);
-            map.put("message", "没有找到当前的用户信息");
+            map.put("msg", "没有找到当前的用户信息");
             return map;
         }
 
@@ -137,7 +137,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserRepository.save(sysUser);
 
         map.put("success", true);
-        map.put("message", "录入成功");
+        map.put("msg", "录入成功");
         return map;
     }
 
@@ -152,7 +152,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         if (sysUser == null) {
             map.put("success", false);
-            map.put("message", "没有找到当前的用户信息");
+            map.put("msg", "没有找到当前的用户信息");
             return map;
         }
 

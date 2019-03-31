@@ -19,7 +19,7 @@ public class THomeworkTask extends BaseBean {
 
     //班级id
     @Column(nullable = false)
-    private Integer classId;
+    private Integer classroomId;
 
     //作业名
     @Column(nullable = false)
@@ -55,12 +55,12 @@ public class THomeworkTask extends BaseBean {
         this.createrId = createrId;
     }
 
-    public Integer getClassId() {
-        return classId;
+    public Integer getClassroomId() {
+        return classroomId;
     }
 
-    public void setClassId(Integer classId) {
-        this.classId = classId;
+    public void setClassroomId(Integer classroomId) {
+        this.classroomId = classroomId;
     }
 
     public String getName() {

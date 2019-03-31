@@ -18,9 +18,8 @@ public class THomeworkController {
     private THomeworkService tHomeworkService;
 
     @GetMapping("/homework-task/{homeworkTaskId}/homework")
-    public Page<THomework> getTSignPage(@PathVariable("homeworkTaskId") Integer homeworkTaskId, String keyword, Pageable pageable) {
-        Page<THomework> page = tHomeworkService.getTHomeworkPage(homeworkTaskId, keyword, pageable);
-        return page;
+    public Page<THomework> getTHomeworkPage(@PathVariable("homeworkTaskId") Integer homeworkTaskId, String keyword, Pageable pageable) {
+        return tHomeworkService.getTHomeworkPage(homeworkTaskId, keyword, pageable);
     }
 
     @PutMapping("/homework/{homeworkId}/score")
@@ -43,9 +42,14 @@ public class THomeworkController {
         return tHomeworkService.getTHomeworkByHomeworkTaskId(homeworkTaskId);
     }
 
-    @GetMapping("/homework-task/{homeworkTaskId}/export")
+    @GetMapping("/homework-task/{homeworkTaskId}/homework/export")
     public void exporHomeworkDataByHomeworkTaskId(@PathVariable("homeworkTaskId") Integer homeworkTaskId, HttpServletResponse httpServletResponse) {
-        tHomeworkService.exporHomeworkDataByHomeworkTaskId(homeworkTaskId, httpServletResponse);
+        tHomeworkService.exportHomeworkDataByHomeworkTaskId(homeworkTaskId, httpServletResponse);
+    }
+
+    @GetMapping("/homework/no-score")
+    public Page<THomework> getHomeworkNoScorePage(Pageable pageable) {
+        return tHomeworkService.getHomeworkNoScorePage(pageable);
     }
 
 }

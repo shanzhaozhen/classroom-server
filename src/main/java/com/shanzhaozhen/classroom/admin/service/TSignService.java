@@ -16,4 +16,6 @@ public interface TSignService {
     Map<String, Object> getTSignBySignTaskId(Integer signTaskId);
 
     void exportSignDataBySignTaskId(Integer signTaskId, HttpServletResponse httpServletResponse);
+
+    int countTSignsByStudentIdAndClassroomId(Integer studentId, Integer classroomId);
 }

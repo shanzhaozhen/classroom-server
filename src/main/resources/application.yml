@@ -3,7 +3,7 @@ server:
     context-path: /classroom
 spring:
   profiles:
-    active: pro
+    active: dev
   jpa:
     hibernate:
       ddl-auto: update

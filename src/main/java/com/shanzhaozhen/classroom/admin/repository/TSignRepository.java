@@ -13,7 +13,7 @@ public interface TSignRepository extends JpaRepository<TSign, Integer> {
     @Query("select new TSign(si, u.sysUserInfo.fullName, u.sysUserInfo.number, u.sysUserInfo.nickName) " +
             "from TStudent s " +
             "left join SysUser u on u.id = s.studentId " +
-            "left join TSignTask sit on sit.classId = s.classId " +
+            "left join TSignTask sit on sit.classroomId = s.classroomId " +
             "left join TSign si on si.signTaskId = sit.id and si.createrId = s.studentId " +
             "where sit.id = ?1 and (u.sysUserInfo.fullName like ?2 or u.sysUserInfo.nickName like ?3)")
     Page<TSign> findTSignsBySignTaskIdAndKeyword(Integer signTaskId, String keyword1, String keyword2, Pageable pageable);
@@ -21,11 +21,17 @@ public interface TSignRepository extends JpaRepository<TSign, Integer> {
     @Query("select new TSign(si, u.sysUserInfo.fullName, u.sysUserInfo.number, u.sysUserInfo.nickName) " +
             "from TStudent s " +
             "left join SysUser u on u.id = s.studentId " +
-            "left join TSignTask sit on sit.classId = s.classId " +
+            "left join TSignTask sit on sit.classroomId = s.classroomId " +
             "left join TSign si on si.signTaskId = sit.id and si.createrId = s.studentId " +
             "where sit.id = ?1")
     List<TSign> findTSignsBySignTaskId(Integer signTaskId);
 
     TSign findTSignByCreaterIdAndSignTaskId(Integer createrId, Integer signTaskId);
 
+    @Query("select count(s.id) " +
+            "from TSign s " +
+            "left join TSignTask st on st.id = s.signTaskId " +
+            "left join TClassroom c on c.id = st.classroomId " +
+            "where s.createrId = ?1 and st.classroomId = ?2")
+    int countTSignsByStudentIdAndClassroomId(Integer studentId, Integer classroomId);
 }

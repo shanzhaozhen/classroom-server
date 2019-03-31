@@ -18,8 +18,8 @@ public class THomeworkTaskController {
     private THomeworkTaskService tHomeworkTaskService;
 
     @GetMapping("/homework-task")
-    public Page<THomeworkTask> getTHomeworkTaskPage(Integer classId, String keyword, Pageable pageable) {
-        Page<THomeworkTask> page = tHomeworkTaskService.getTHomeworkTaskPage(classId, keyword, pageable);
+    public Page<THomeworkTask> getTHomeworkTaskPage(Integer classroomId, String keyword, Pageable pageable) {
+        Page<THomeworkTask> page = tHomeworkTaskService.getTHomeworkTaskPage(classroomId, keyword, pageable);
         return page;
     }
 
@@ -43,9 +43,9 @@ public class THomeworkTaskController {
         return tHomeworkTaskService.getTHomeworkTaskById(id);
     }
 
-    @GetMapping("/homework-task/classroom/{id}")
-    public List<THomeworkTask> getHomeworkTaskListByClassId(@PathVariable("id") Integer classId) {
-        return tHomeworkTaskService.getHomeworkTaskListByClassId(classId);
+    @GetMapping("/classroom/{classroomId}/homework-task")
+    public List<THomeworkTask> getHomeworkTaskListByClassroomId(@PathVariable("classroomId") Integer classroomId) {
+        return tHomeworkTaskService.getHomeworkTaskListByClassroomId(classroomId);
     }
 
     @GetMapping("/homework-task/{homeworkTaskId}/commit")
