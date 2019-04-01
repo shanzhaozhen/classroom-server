@@ -1,10 +1,12 @@
 package com.shanzhaozhen.classroom;
 
+import com.alibaba.fastjson.JSONObject;
 import com.shanzhaozhen.classroom.admin.repository.*;
 import com.shanzhaozhen.classroom.bean.SysPermission;
 import com.shanzhaozhen.classroom.bean.SysRole;
 import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.TClassroom;
+import com.shanzhaozhen.classroom.service.RegisterService;
 import com.shanzhaozhen.classroom.utils.LocationUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +33,9 @@ public class ClassroomApplicationTests {
     @Autowired
     private TClassroomRepository tClassroomRepository;
 
+    @Autowired
+    private RegisterService registerService;
+
     @Test
     public void contextLoads() {
     }
@@ -52,5 +57,18 @@ public class ClassroomApplicationTests {
         double m = LocationUtils.distanceByLongNLat(113.26436, 23.12908, 113.26436, 23.14908);
 
         System.out.println(m);
+    }
+
+    @Test
+    public void joinClassroom() {
+
+        for (int i = 5; i <= 50; i++) {
+            String username = "user" + i;
+            JSONObject jsonParam = new JSONObject();
+            jsonParam.put("username", username);
+            jsonParam.put("password", "123456");
+            registerService.RegisterNewUser(jsonParam);
+        }
+
     }
 }

@@ -22,18 +22,18 @@ public class TFileInfo extends BaseBean {
 
     private String ip;
 
-    private String userid;
+    private Integer createrId;
 
     public TFileInfo() {
     }
 
-    public TFileInfo(String fileName, String suffixName, String relativePath, String realPath, String ip, String userid) {
+    public TFileInfo(String fileName, String suffixName, String relativePath, String realPath, String ip, Integer createrId) {
         this.fileName = fileName;
         this.suffixName = suffixName;
         this.relativePath = relativePath;
         this.realPath = realPath;
         this.ip = ip;
-        this.userid = userid;
+        this.createrId = createrId;
     }
 
     public Integer getId() {
@@ -84,11 +84,11 @@ public class TFileInfo extends BaseBean {
         this.ip = ip;
     }
 
-    public String getUserid() {
-        return userid;
+    public Integer getCreaterId() {
+        return createrId;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setCreaterId(Integer createrId) {
+        this.createrId = createrId;
     }
 }

@@ -1,9 +1,12 @@
 package com.shanzhaozhen.classroom.service.impl;
 
 import com.shanzhaozhen.classroom.admin.repository.TFileInfoRepository;
+import com.shanzhaozhen.classroom.admin.service.SysUserService;
+import com.shanzhaozhen.classroom.bean.SysUser;
 import com.shanzhaozhen.classroom.bean.TFileInfo;
 import com.shanzhaozhen.classroom.utils.FileServiceProvider;
 import com.shanzhaozhen.classroom.service.FileService;
+import com.shanzhaozhen.classroom.utils.UserDetailsUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -16,6 +19,9 @@ import java.util.Map;
 
 @Service
 public class FileServiceImpl implements FileService {
+
+    @Autowired
+    private SysUserService sysUserService;
 
     @Autowired
     private FileServiceProvider fileServiceProvider;
@@ -31,6 +37,12 @@ public class FileServiceImpl implements FileService {
     @Override
     public Map<String, Object> saveTFileInfo(TFileInfo tFileInfo) {
         Map<String, Object> map = new HashMap<>();
+        String username = UserDetailsUtils.getUsername();
+        SysUser sysUser = sysUserService.getSysUserByUsername(username);
+        if (sysUser == null) {
+            tFileInfo.setCreaterId(sysUser.getId());
+        }
+
         tFileInfoRepository.save(tFileInfo);
         map.put("success", true);
         map.put("msg", "文件保存成功");
