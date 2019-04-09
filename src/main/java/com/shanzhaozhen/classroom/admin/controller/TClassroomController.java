@@ -37,12 +37,12 @@ public class TClassroomController {
     }
 
     @PutMapping("/classroom")
-    public Map<String, Object> updateClassRoom(@RequestBody TClassroom tClassroom) {
+    public Map<String, Object> updateClassroom(@RequestBody TClassroom tClassroom) {
         return tClassroomService.updateTClassroom(tClassroom);
     }
 
     @DeleteMapping("/classroom/{id}")
-    public Map<String, Object> deleteClassRoom(@PathVariable("id") Integer id) {
+    public Map<String, Object> deleteClassroom(@PathVariable("id") Integer id) {
         return tClassroomService.deleteTClassroom(id);
     }
 
@@ -53,14 +53,14 @@ public class TClassroomController {
     }
 
     @GetMapping("/classroom/search")
-    public List<TClassroom> searchClassRoom(String keyword) {
-        List<TClassroom> list = tClassroomService.searchClassRoom(keyword);
+    public List<TClassroom> searchClassroom(String keyword) {
+        List<TClassroom> list = tClassroomService.searchClassroom(keyword);
         return list;
     }
 
     @GetMapping("/classroom/my")
     public List<TClassroom> getTClassroom() {
-        List<TClassroom> list = tClassroomService.getMyClassRoom();
+        List<TClassroom> list = tClassroomService.getMyClassroom();
         return list;
     }
 

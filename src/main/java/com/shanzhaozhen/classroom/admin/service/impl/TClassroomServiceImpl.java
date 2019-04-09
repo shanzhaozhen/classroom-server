@@ -108,7 +108,7 @@ public class TClassroomServiceImpl implements TClassroomService {
     }
 
     @Override
-    public List<TClassroom> searchClassRoom(String keyword) {
+    public List<TClassroom> searchClassroom(String keyword) {
         keyword = "%" + keyword + "%";
 
         String username = UserDetailsUtils.getUsername();
@@ -120,7 +120,7 @@ public class TClassroomServiceImpl implements TClassroomService {
     }
 
     @Override
-    public List<TClassroom> getMyClassRoom() {
+    public List<TClassroom> getMyClassroom() {
         String username = UserDetailsUtils.getUsername();
         SysUser sysUser = sysUserService.getSysUserByUsername(username);
         if (sysUser == null) {

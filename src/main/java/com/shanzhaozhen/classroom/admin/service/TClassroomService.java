@@ -20,9 +20,9 @@ public interface TClassroomService {
 
     List<KeyValueParam> getTClassroomSimpleList();
 
-    List<TClassroom> searchClassRoom(String keyword);
+    List<TClassroom> searchClassroom(String keyword);
 
-    List<TClassroom> getMyClassRoom();
+    List<TClassroom> getMyClassroom();
 
     TClassroom getClassroomById(Integer id);
 
