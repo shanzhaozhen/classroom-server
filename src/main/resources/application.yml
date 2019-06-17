@@ -46,7 +46,7 @@ wechat:
   projectUrl: http://elora.fnl56.com/recruitment/
 
 face:
-  key: vqBuqNEUXIK8iU0rBAQI4-BbvJLa98Jh
-  secret: g5mJ3WxS4Joc8PXdJ1rrjmAYZ00X9Qqo
+  key: xxxx-xxxx
+  secret: xxxx
   detectApi: https://api-cn.faceplusplus.com/facepp/v3/detect
   compareApi: https://api-cn.faceplusplus.com/facepp/v3/compare
